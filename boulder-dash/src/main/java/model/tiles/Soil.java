@@ -7,6 +7,16 @@ package model.tiles;
  */
 public class Soil implements Tile{
     @Override
+    public boolean canFall() {
+        return false;
+    }
+
+    @Override
+    public boolean canMoveIn() {
+        return true;
+    }
+
+    @Override
     public String toString() {
         return ".";
     }

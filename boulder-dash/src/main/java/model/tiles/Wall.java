@@ -5,6 +5,16 @@ package model.tiles;
  */
 public class Wall implements Tile {
     @Override
+    public boolean canFall() {
+        return false;
+    }
+
+    @Override
+    public boolean canMoveIn() {
+        return false;
+    }
+
+    @Override
     public String toString() {
         return "w";
     }

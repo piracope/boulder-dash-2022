@@ -47,7 +47,7 @@ public class Level {
                     col++;
                 }
                 case 'd' -> {
-                    map[line][col] = new Diamond();
+                    map[line][col] = new Diamond(map);
                     col++;
                 }
                 case 'x' -> {
@@ -55,7 +55,7 @@ public class Level {
                     col++;
                 }
                 case 'r' -> {
-                    map[line][col] = new Boulder();
+                    map[line][col] = new Boulder(map);
                     col++;
                 }
                 case '\n' -> {

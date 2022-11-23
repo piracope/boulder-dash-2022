@@ -10,4 +10,14 @@ package model.tiles;
  * (the top tiles will fall at the free diagonal then continue their fall normally.)
  */
 public abstract class FallingTile implements Tile {
+    protected final Tile[][] tiles;
+
+    public FallingTile(Tile[][] tiles) {
+        this.tiles = tiles;
+    }
+
+    @Override
+    public boolean canFall() {
+        return true;
+    }
 }

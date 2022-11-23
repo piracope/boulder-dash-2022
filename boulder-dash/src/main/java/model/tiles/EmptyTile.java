@@ -5,6 +5,16 @@ package model.tiles;
  */
 public class EmptyTile implements Tile {
     @Override
+    public boolean canFall() {
+        return false;
+    }
+
+    @Override
+    public boolean canMoveIn() {
+        return true;
+    }
+
+    @Override
     public String toString() {
         return " ";
     }
