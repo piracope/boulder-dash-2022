@@ -47,15 +47,19 @@ public class Level {
                     col++;
                 }
                 case 'd' -> {
-                    map[line][col] = new Diamond(map);
+                    map[line][col] = new Diamond();
                     col++;
                 }
                 case 'x' -> {
+                    if (playerPos != null) {
+                        throw new IllegalStateException("Level has more than 1 spawn point.");
+                    }
                     map[line][col] = new Player();
+                    playerPos = new Position(col, line);
                     col++;
                 }
                 case 'r' -> {
-                    map[line][col] = new Boulder(map);
+                    map[line][col] = new Boulder();
                     col++;
                 }
                 case '\n' -> {
@@ -67,6 +71,12 @@ public class Level {
                     col++;
                 }
             }
+
+            // TODO : update neighbours
+        }
+
+        if(playerPos == null) {
+            throw new IllegalStateException("Level has no spawn point.");
         }
     }
 
@@ -106,8 +116,34 @@ public class Level {
      *
      * @param dir the direction towards which the player will move.
      */
-    void move(Direction dir) {
-        playerPos.move(dir);
+    public void move(Direction dir) {
+        Tile destinationTile = map[playerPos.getY() + dir.getDy()][playerPos.getX() + dir.getDx()];
+        if(!destinationTile.canMoveIn()) {
+            throw new IllegalArgumentException("Cannot move player in this direction");
+        }
+        
+    }
+    
+    public Tile getNeighbour(Tile t, Direction dir) {
+        for (int y = 0; y < map.length; y++) {
+            for (int x = 0; x < map[y].length; x++) {
+                if(map[y][x] == t) {
+                    return map[y + dir.getDy()][x + dir.getDx()];
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public void setNeighbour(Tile t, Direction dir, Tile toSet) {
+        for (int y = 0; y < map.length; y++) {
+            for (int x = 0; x < map[y].length; x++) {
+                if(map[y][x] == t) {
+                    map[y + dir.getDy()][x + dir.getDx()] = toSet;
+                }
+            }
+        }
     }
 
     @Override

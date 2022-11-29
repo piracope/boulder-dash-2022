@@ -13,4 +13,12 @@ public class Position {
         this.x += dir.getDx();
         this.y += dir.getDy();
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 }
