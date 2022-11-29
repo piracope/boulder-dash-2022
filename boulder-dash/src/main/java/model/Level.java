@@ -43,23 +43,24 @@ public class Level {
                     col++;
                 }
                 case '.' -> {
-                    map[line][col] = new Soil();
+                    map[line][col] = new Soil(this, new Position(col, line));
                     col++;
                 }
                 case 'd' -> {
-                    map[line][col] = new Diamond();
+                    map[line][col] = new Diamond(this, new Position(col, line));
                     col++;
                 }
                 case 'x' -> {
                     if (playerPos != null) {
                         throw new IllegalStateException("Level has more than 1 spawn point.");
                     }
-                    map[line][col] = new Player();
                     playerPos = new Position(col, line);
+                    map[line][col] = new Player(this, playerPos);
+
                     col++;
                 }
                 case 'r' -> {
-                    map[line][col] = new Boulder();
+                    map[line][col] = new Boulder(this, new Position(col, line));
                     col++;
                 }
                 case '\n' -> {
@@ -67,7 +68,7 @@ public class Level {
                     col = 0;
                 }
                 default -> {
-                    map[line][col] = new EmptyTile();
+                    map[line][col] = new EmptyTile(this, new Position(col, line));
                     col++;
                 }
             }
@@ -117,33 +118,31 @@ public class Level {
      * @param dir the direction towards which the player will move.
      */
     public void move(Direction dir) {
-        Tile destinationTile = map[playerPos.getY() + dir.getDy()][playerPos.getX() + dir.getDx()];
+        Tile player = getTile(playerPos);
+        Tile destinationTile = getTile(playerPos, dir);
         if(!destinationTile.canMoveIn()) {
             throw new IllegalArgumentException("Cannot move player in this direction");
         }
-        
-    }
-    
-    public Tile getNeighbour(Tile t, Direction dir) {
-        for (int y = 0; y < map.length; y++) {
-            for (int x = 0; x < map[y].length; x++) {
-                if(map[y][x] == t) {
-                    return map[y + dir.getDy()][x + dir.getDx()];
-                }
-            }
-        }
 
-        return null;
+        destinationTile.move(dir);
+        moveTile(player, playerPos, dir);
+        playerPos.move(dir);
     }
 
-    public void setNeighbour(Tile t, Direction dir, Tile toSet) {
-        for (int y = 0; y < map.length; y++) {
-            for (int x = 0; x < map[y].length; x++) {
-                if(map[y][x] == t) {
-                    map[y + dir.getDy()][x + dir.getDx()] = toSet;
-                }
-            }
-        }
+    public Tile getTile(Position pos, Direction dir) {
+        return map[pos.getY() + dir.getDy()][pos.getX() + dir.getDx()];
+    }
+
+    public Tile getTile(Position pos) {
+        return map[pos.getY()][pos.getX()];
+    }
+    public void moveTile(Tile tile, Position pos, Direction dir) {
+        map[pos.getY() + dir.getDy()][pos.getX() + dir.getDx()] = tile;
+        map[pos.getY()][pos.getX()] = new EmptyTile(this, pos);
+    }
+
+    public void collectDiamond() {
+        diamondCount++;
     }
 
     @Override
@@ -159,6 +158,19 @@ public class Level {
     }
 
     public static void main(String[] args) {
-        System.out.println(new Level(0));
+        Level lvl = new Level(0);
+        System.out.println(lvl);
+        lvl.move(Direction.UP);
+        System.out.println("Moved up");
+        System.out.println(lvl);
+        for (int i = 0; i < 6; i++) {
+            lvl.move(Direction.RIGHT);
+        }
+        System.out.println("Moved 6 right");
+        System.out.println(lvl);
+        lvl.move(Direction.RIGHT);
+        System.out.println("Caught diamond");
+        System.out.println(lvl);
+        System.out.println("Diamond count : " + lvl.diamondCount);
     }
 }

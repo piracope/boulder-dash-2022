@@ -1,6 +1,7 @@
 package model.tiles;
 
 import model.Level;
+import model.Position;
 
 /**
  * A FallingTile is a Tile that is subject to gravity.
@@ -12,13 +13,8 @@ import model.Level;
  * (the top tiles will fall at the free diagonal then continue their fall normally.)
  */
 public abstract class FallingTile extends ConcreteTile {
-    /**
-     * Creates a new ConcreteTile with the map it's in.
-     *
-     * @param level the level where this tile is
-     */
-    public FallingTile(Level level) {
-        super(level);
+    public FallingTile(Level level, Position position) {
+        super(level, position);
     }
 
     @Override

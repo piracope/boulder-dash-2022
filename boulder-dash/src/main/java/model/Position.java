@@ -10,8 +10,13 @@ public class Position {
     }
 
     public void move(Direction dir) {
-        this.x += dir.getDx();
-        this.y += dir.getDy();
+        Position newPos = addDirection(dir);
+        this.x = newPos.x;
+        this.y = newPos.y;
+    }
+
+    public Position addDirection(Direction dir) {
+        return new Position(this.x + dir.getDx(), this.y + dir.getDy());
     }
 
     public int getX() {

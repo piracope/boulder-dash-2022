@@ -2,24 +2,14 @@ package model.tiles;
 
 import model.Direction;
 import model.Level;
+import model.Position;
 
 /**
  * The Player tile is the tile where the player is currently at.
  */
 public class Player extends ConcreteTile{
-
-    /**
-     * Creates a new ConcreteTile with the map it's in.
-     *
-     * @param level the level where this tile is
-     */
-    public Player(Level level) {
-        super(level);
-    }
-
-    @Override
-    public boolean canFallIn() {
-        return true;
+    public Player(Level level, Position position) {
+        super(level, position);
     }
 
     @Override
@@ -28,18 +18,12 @@ public class Player extends ConcreteTile{
     }
 
     @Override
-    public void move(Direction dir) {
-        Tile destinationTile = level.getNeighbour(this, dir);
-        if(!destinationTile.canMoveIn()) {
-            throw new IllegalArgumentException("Cannot move player in this direction");
-        }
-
-        destinationTile.move(dir);
-        level.setNeighbour(this, dir, this);
+    public String toString() {
+        return "X";
     }
 
     @Override
-    public String toString() {
-        return "X";
+    public void move(Direction dir) {
+        ;
     }
 }
