@@ -25,10 +25,6 @@ public class Boulder extends FallingTile {
     }
 
     @Override
-    public void fall() {
-    }
-
-    @Override
     public void move(Direction dir) {
         ;
     }

@@ -21,4 +21,8 @@ public abstract class ConcreteTile implements Tile {
     public boolean canFall() {
         return false;
     }
+    @Override
+    public boolean canFallOn() {
+        return false;
+    }
 }

@@ -1,5 +1,6 @@
 package model.tiles;
 
+import model.Direction;
 import model.Level;
 import model.Position;
 
@@ -22,7 +23,14 @@ public abstract class FallingTile extends ConcreteTile {
         return true;
     }
 
-    public abstract void fall();
+    public void fall() {
+        while(level.getTile(position, Direction.DOWN).canFallOn()) {
+            level.moveTile(this, position, Direction.DOWN);
+            position.move(Direction.DOWN);
+        }
+
+        // TODO : implement diagonal fall
+    }
 
 
 }

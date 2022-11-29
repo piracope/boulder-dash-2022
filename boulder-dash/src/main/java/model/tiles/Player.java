@@ -26,4 +26,9 @@ public class Player extends ConcreteTile{
     public void move(Direction dir) {
         ;
     }
+
+    @Override
+    public boolean canFallOn() {
+        return true;
+    }
 }

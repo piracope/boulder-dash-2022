@@ -26,4 +26,9 @@ public class EmptyTile extends ConcreteTile {
     public String toString() {
         return " ";
     }
+
+    @Override
+    public boolean canFallOn() {
+        return true;
+    }
 }

@@ -13,6 +13,12 @@ public interface Tile {
     boolean canFall();
 
     /**
+     * Checks if a FallingTile can fall on this tile.
+     * @return true if we can fall on this tile.
+     */
+    boolean canFallOn();
+
+    /**
      * Checks if the player can move towards this shape.
      *
      * @return true if we can move in this shape

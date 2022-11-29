@@ -26,9 +26,4 @@ public class Diamond extends FallingTile {
     public void move(Direction dir) {
         level.collectDiamond();
     }
-
-    @Override
-    public void fall() {
-
-    }
 }

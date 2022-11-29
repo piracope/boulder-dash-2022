@@ -127,6 +127,8 @@ public class Level {
         destinationTile.move(dir);
         moveTile(player, playerPos, dir);
         playerPos.move(dir);
+
+        makeFall();
     }
 
     public Tile getTile(Position pos, Direction dir) {
@@ -143,6 +145,17 @@ public class Level {
 
     public void collectDiamond() {
         diamondCount++;
+    }
+
+    public void makeFall() {
+        for (int y = map.length - 1; y >= 0 ; y--) {
+            for (int x = 0; x < map[y].length; x++) {
+                if(map[y][x].canFall()) {
+                    FallingTile f = (FallingTile) map[y][x];
+                    f.fall();
+                }
+            }
+        }
     }
 
     @Override
@@ -172,5 +185,9 @@ public class Level {
         System.out.println("Caught diamond");
         System.out.println(lvl);
         System.out.println("Diamond count : " + lvl.diamondCount);
+        lvl.move(Direction.RIGHT);
+        lvl.move(Direction.DOWN);
+        lvl.move(Direction.RIGHT);
+        System.out.println(lvl);
     }
 }

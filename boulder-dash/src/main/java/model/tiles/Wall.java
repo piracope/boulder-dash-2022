@@ -12,6 +12,11 @@ public class Wall implements Tile {
     }
 
     @Override
+    public boolean canFallOn() {
+        return false;
+    }
+
+    @Override
     public boolean canMoveIn() {
         return false;
     }
