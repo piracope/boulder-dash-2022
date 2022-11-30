@@ -1,17 +1,11 @@
 package model.tiles;
 
-import model.Direction;
 import model.Level;
-import model.Position;
 
 /**
  * The Player tile is the tile where the player is currently at.
  */
 public class Player extends ConcreteTile{
-    public Player(Level level, Position position) {
-        super(level, position);
-    }
-
     @Override
     public boolean canMoveIn() {
         throw new UnsupportedOperationException("how can you bump into another player");
@@ -23,8 +17,8 @@ public class Player extends ConcreteTile{
     }
 
     @Override
-    public void move(Direction dir) {
-        ;
+    public void onMove() {
+
     }
 
     @Override

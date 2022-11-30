@@ -1,7 +1,5 @@
 package model.tiles;
 
-import model.Direction;
-
 /**
  * A Tile is a discrete element of the world.
  */
@@ -28,5 +26,5 @@ public interface Tile {
     /**
      * Does an action whenever the player requests a move.
      */
-    void move(Direction dir);
+    void onMove();
 }

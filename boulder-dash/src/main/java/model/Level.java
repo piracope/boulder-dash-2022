@@ -1,11 +1,12 @@
 package model;
 
 import com.google.gson.Gson;
-
-import java.io.*;
-import java.util.Objects;
-
 import model.tiles.*;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Objects;
 
 /**
  * A Level is a specific map of different tiles in which the player can play.
@@ -43,7 +44,7 @@ public class Level {
                     col++;
                 }
                 case '.' -> {
-                    map[line][col] = new Soil(this, new Position(col, line));
+                    map[line][col] = new Soil();
                     col++;
                 }
                 case 'd' -> {
@@ -55,7 +56,7 @@ public class Level {
                         throw new IllegalStateException("Level has more than 1 spawn point.");
                     }
                     playerPos = new Position(col, line);
-                    map[line][col] = new Player(this, playerPos);
+                    map[line][col] = new Player();
 
                     col++;
                 }
@@ -68,12 +69,10 @@ public class Level {
                     col = 0;
                 }
                 default -> {
-                    map[line][col] = new EmptyTile(this, new Position(col, line));
+                    map[line][col] = new EmptyTile();
                     col++;
                 }
             }
-
-            // TODO : update neighbours
         }
 
         if(playerPos == null) {
@@ -110,6 +109,8 @@ public class Level {
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new IllegalArgumentException("Level does not exist.");
         }
+
+        makeFall();
     }
 
     /**
@@ -118,17 +119,15 @@ public class Level {
      * @param dir the direction towards which the player will move.
      */
     public void move(Direction dir) {
+        makeFall(); // here to avoid a boulder falling on the player just after the move
         Tile player = getTile(playerPos);
         Tile destinationTile = getTile(playerPos, dir);
         if(!destinationTile.canMoveIn()) {
             throw new IllegalArgumentException("Cannot move player in this direction");
         }
 
-        destinationTile.move(dir);
-        moveTile(player, playerPos, dir);
-        playerPos.move(dir);
-
-        makeFall();
+        destinationTile.onMove();
+        moveTile(playerPos, dir);
     }
 
     public Tile getTile(Position pos, Direction dir) {
@@ -138,9 +137,16 @@ public class Level {
     public Tile getTile(Position pos) {
         return map[pos.getY()][pos.getX()];
     }
-    public void moveTile(Tile tile, Position pos, Direction dir) {
-        map[pos.getY() + dir.getDy()][pos.getX() + dir.getDx()] = tile;
-        map[pos.getY()][pos.getX()] = new EmptyTile(this, pos);
+    public void moveTile(Position pos, Direction dir) {
+        Tile t = getTile(pos);
+        map[pos.getY() + dir.getDy()][pos.getX() + dir.getDx()] = t;
+        map[pos.getY()][pos.getX()] = new EmptyTile();
+        if(t.canFall()) {
+            ((FallingTile) t).updatePosition(dir);
+        }
+        if(pos.equals(playerPos)) {
+            playerPos.move(dir);
+        }
     }
 
     public void collectDiamond() {
@@ -174,20 +180,13 @@ public class Level {
         Level lvl = new Level(0);
         System.out.println(lvl);
         lvl.move(Direction.UP);
-        System.out.println("Moved up");
-        System.out.println(lvl);
-        for (int i = 0; i < 6; i++) {
-            lvl.move(Direction.RIGHT);
-        }
-        System.out.println("Moved 6 right");
-        System.out.println(lvl);
         lvl.move(Direction.RIGHT);
-        System.out.println("Caught diamond");
-        System.out.println(lvl);
-        System.out.println("Diamond count : " + lvl.diamondCount);
         lvl.move(Direction.RIGHT);
         lvl.move(Direction.DOWN);
-        lvl.move(Direction.RIGHT);
+        lvl.move(Direction.DOWN);
+        lvl.move(Direction.DOWN);
+        lvl.move(Direction.DOWN);
+        lvl.move(Direction.DOWN);
         System.out.println(lvl);
     }
 }

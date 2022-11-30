@@ -1,6 +1,5 @@
 package model.tiles;
 
-import model.Direction;
 import model.Level;
 import model.Position;
 
@@ -25,7 +24,7 @@ public class Boulder extends FallingTile {
     }
 
     @Override
-    public void move(Direction dir) {
-        ;
+    public void onMove() {
+
     }
 }
