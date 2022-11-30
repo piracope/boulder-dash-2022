@@ -1,14 +1,14 @@
 package model.tiles;
 
-import model.Level;
+import model.Direction;
 
 /**
  * The Player tile is the tile where the player is currently at.
  */
-public class Player extends ConcreteTile{
+public class Player extends ConcreteTile {
     @Override
-    public boolean canMoveIn() {
-        throw new UnsupportedOperationException("how can you bump into another player");
+    public boolean canMoveIn(Direction dir) {
+        throw new IllegalStateException("how can you bump into another player");
     }
 
     @Override
@@ -17,7 +17,7 @@ public class Player extends ConcreteTile{
     }
 
     @Override
-    public void onMove() {
+    public void onMove(Direction dir) {
 
     }
 

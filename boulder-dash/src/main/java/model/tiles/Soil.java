@@ -1,6 +1,6 @@
 package model.tiles;
 
-import model.Level;
+import model.Direction;
 
 /**
  * A Soil tile is a tile that can be consumed by the player.
@@ -14,12 +14,12 @@ public class Soil extends ConcreteTile {
     }
 
     @Override
-    public boolean canMoveIn() {
+    public boolean canMoveIn(Direction dir) {
         return true;
     }
 
     @Override
-    public void onMove() {
+    public void onMove(Direction dir) {
 
     }
 

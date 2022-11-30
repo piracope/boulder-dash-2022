@@ -75,7 +75,7 @@ public class Level {
             }
         }
 
-        if(playerPos == null) {
+        if (playerPos == null) {
             throw new IllegalStateException("Level has no spawn point.");
         }
     }
@@ -120,13 +120,11 @@ public class Level {
      */
     public void move(Direction dir) {
         makeFall(); // here to avoid a boulder falling on the player just after the move
-        Tile player = getTile(playerPos);
         Tile destinationTile = getTile(playerPos, dir);
-        if(!destinationTile.canMoveIn()) {
+        if (!destinationTile.canMoveIn(dir)) {
             throw new IllegalArgumentException("Cannot move player in this direction");
         }
-
-        destinationTile.onMove();
+        destinationTile.onMove(dir);
         moveTile(playerPos, dir);
     }
 
@@ -137,14 +135,15 @@ public class Level {
     public Tile getTile(Position pos) {
         return map[pos.getY()][pos.getX()];
     }
+
     public void moveTile(Position pos, Direction dir) {
         Tile t = getTile(pos);
         map[pos.getY() + dir.getDy()][pos.getX() + dir.getDx()] = t;
         map[pos.getY()][pos.getX()] = new EmptyTile();
-        if(t.canFall()) {
+        if (t.canFall()) {
             ((FallingTile) t).updatePosition(dir);
         }
-        if(pos.equals(playerPos)) {
+        if (pos.equals(playerPos)) {
             playerPos.move(dir);
         }
     }
@@ -154,9 +153,9 @@ public class Level {
     }
 
     public void makeFall() {
-        for (int y = map.length - 1; y >= 0 ; y--) {
+        for (int y = map.length - 1; y >= 0; y--) {
             for (int x = 0; x < map[y].length; x++) {
-                if(map[y][x].canFall()) {
+                if (map[y][x].canFall()) {
                     FallingTile f = (FallingTile) map[y][x];
                     f.fall();
                 }
@@ -182,11 +181,14 @@ public class Level {
         lvl.move(Direction.UP);
         lvl.move(Direction.RIGHT);
         lvl.move(Direction.RIGHT);
-        lvl.move(Direction.DOWN);
-        lvl.move(Direction.DOWN);
-        lvl.move(Direction.DOWN);
-        lvl.move(Direction.DOWN);
-        lvl.move(Direction.DOWN);
+        lvl.move(Direction.RIGHT);
+        lvl.move(Direction.RIGHT);
+        lvl.move(Direction.RIGHT);
+        lvl.move(Direction.RIGHT);
+        lvl.move(Direction.RIGHT);
+        lvl.move(Direction.RIGHT);
+        lvl.move(Direction.RIGHT);
+        lvl.move(Direction.RIGHT);
         System.out.println(lvl);
     }
 }

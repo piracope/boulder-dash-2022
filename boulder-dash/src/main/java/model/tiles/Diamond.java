@@ -1,5 +1,6 @@
 package model.tiles;
 
+import model.Direction;
 import model.Level;
 import model.Position;
 
@@ -17,12 +18,12 @@ public class Diamond extends FallingTile {
     }
 
     @Override
-    public boolean canMoveIn() {
+    public boolean canMoveIn(Direction dir) {
         return true;
     }
 
     @Override
-    public void onMove() {
+    public void onMove(Direction dir) {
         level.collectDiamond();
     }
 }

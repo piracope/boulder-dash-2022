@@ -1,5 +1,6 @@
 package model.tiles;
 
+import model.Direction;
 import model.Level;
 import model.Position;
 
@@ -14,8 +15,8 @@ public class Boulder extends FallingTile {
     }
 
     @Override
-    public boolean canMoveIn() {
-        return false; // TODO : implement pushing boulders
+    public boolean canMoveIn(Direction dir) {
+        return level.getTile(position, dir).canFallOn();
     }
 
     @Override
@@ -24,7 +25,11 @@ public class Boulder extends FallingTile {
     }
 
     @Override
-    public void onMove() {
-
+    public void onMove(Direction dir) {
+        if (canMoveIn(dir)) {
+            level.moveTile(position, dir);
+        } else {
+            throw new IllegalArgumentException("Cannot move in this direction.");
+        }
     }
 }

@@ -16,6 +16,7 @@ import model.Position;
 public abstract class FallingTile extends ConcreteTile {
     protected final Level level;
     protected final Position position;
+
     public FallingTile(Level level, Position position) {
         this.level = level;
         this.position = position;
@@ -27,7 +28,7 @@ public abstract class FallingTile extends ConcreteTile {
     }
 
     public void fall() {
-        if(fallDown(Direction.DOWN) || fallDown(Direction.DOWN_LEFT) || fallDown(Direction.DOWN_RIGHT)) {
+        if (fallDown(Direction.DOWN) || fallDown(Direction.DOWN_LEFT) || fallDown(Direction.DOWN_RIGHT)) {
             fall();
         }
     }
@@ -35,11 +36,12 @@ public abstract class FallingTile extends ConcreteTile {
     public void updatePosition(Direction dir) {
         position.move(dir);
     }
+
     private boolean fallDown(Direction dir) {
         Tile diag = level.getTile(position, dir);
         Tile side = level.getTile(position, dir.getComponents()[1]);
         Tile under = level.getTile(position, Direction.DOWN);
-        if(under.canFallOn() || under.canFall() && side.canFallOn() && diag.canFallOn()) {
+        if (under.canFallOn() || under.canFall() && side.canFallOn() && diag.canFallOn()) {
             level.moveTile(position, dir);
             return true;
         }

@@ -1,5 +1,7 @@
 package model.tiles;
 
+import model.Direction;
+
 /**
  * A Wall is a stationary Tile. It doesn't move and nothing can pass through it.
  */
@@ -15,12 +17,12 @@ public class Wall implements Tile {
     }
 
     @Override
-    public boolean canMoveIn() {
+    public boolean canMoveIn(Direction dir) {
         return false;
     }
 
     @Override
-    public void onMove() {
+    public void onMove(Direction dir) {
 
     }
 

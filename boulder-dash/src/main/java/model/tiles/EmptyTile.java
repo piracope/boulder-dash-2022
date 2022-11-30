@@ -1,18 +1,18 @@
 package model.tiles;
 
-import model.Level;
+import model.Direction;
 
 /**
  * An EmptyTile is a Tile with nothing in it.
  */
 public class EmptyTile extends ConcreteTile {
     @Override
-    public boolean canMoveIn() {
+    public boolean canMoveIn(Direction dir) {
         return true;
     }
 
     @Override
-    public void onMove() {
+    public void onMove(Direction dir) {
     }
 
     @Override

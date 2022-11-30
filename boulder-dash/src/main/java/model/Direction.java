@@ -27,7 +27,7 @@ public enum Direction {
     }
 
     public Direction[] getComponents() {
-        switch(this) {
+        switch (this) {
             case UP_LEFT -> {
                 return new Direction[]{UP, LEFT};
             }
