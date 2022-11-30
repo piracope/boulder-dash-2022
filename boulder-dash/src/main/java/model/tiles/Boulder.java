@@ -15,6 +15,11 @@ public class Boulder extends FallingTile {
     }
 
     @Override
+    public boolean canFallOn() {
+        return false;
+    }
+
+    @Override
     public boolean canMoveIn(Direction dir) {
         return level.getTile(position, dir).canFallOn();
     }

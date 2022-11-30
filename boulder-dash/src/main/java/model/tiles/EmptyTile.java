@@ -5,7 +5,7 @@ import model.Direction;
 /**
  * An EmptyTile is a Tile with nothing in it.
  */
-public class EmptyTile extends ConcreteTile {
+public class EmptyTile implements Tile {
     @Override
     public boolean canMoveIn(Direction dir) {
         return true;
@@ -18,6 +18,11 @@ public class EmptyTile extends ConcreteTile {
     @Override
     public String toString() {
         return " ";
+    }
+
+    @Override
+    public boolean canFall() {
+        return false;
     }
 
     @Override

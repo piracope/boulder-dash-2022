@@ -21,8 +21,8 @@ public class Level {
     private final Tile[][] map;
     private final int minimumDiamonds;
     private Position playerPos;
+    private Position exitPos;
     private int diamondCount = 0;
-    private boolean isWon = false;
 
     private static class LevelJSON {
         public String map;
@@ -67,6 +67,14 @@ public class Level {
                 case '\n' -> {
                     line++;
                     col = 0;
+                }
+                case 'p' -> {
+                    if (exitPos != null) {
+                        throw new IllegalStateException("Level has more than 1 exit point.");
+                    }
+                    map[line][col] = new Exit();
+                    exitPos = new Position(col, line);
+                    col++;
                 }
                 default -> {
                     map[line][col] = new EmptyTile();
@@ -150,6 +158,13 @@ public class Level {
 
     public void collectDiamond() {
         diamondCount++;
+        if(diamondCount == minimumDiamonds) {
+            ((Exit) getTile(exitPos)).reveal();
+        }
+    }
+
+    public boolean isWon() {
+        return playerPos.equals(exitPos) && diamondCount >= minimumDiamonds;
     }
 
     public void makeFall() {
@@ -176,19 +191,14 @@ public class Level {
     }
 
     public static void main(String[] args) {
-        Level lvl = new Level(0);
+        Level lvl = new Level(1);
         System.out.println(lvl);
-        lvl.move(Direction.UP);
+        lvl.move(Direction.RIGHT);
+        lvl.move(Direction.DOWN);
         lvl.move(Direction.RIGHT);
         lvl.move(Direction.RIGHT);
-        lvl.move(Direction.RIGHT);
-        lvl.move(Direction.RIGHT);
-        lvl.move(Direction.RIGHT);
-        lvl.move(Direction.RIGHT);
-        lvl.move(Direction.RIGHT);
-        lvl.move(Direction.RIGHT);
-        lvl.move(Direction.RIGHT);
-        lvl.move(Direction.RIGHT);
+        lvl.move(Direction.DOWN);
         System.out.println(lvl);
+        System.out.println(lvl.isWon());
     }
 }

@@ -14,8 +14,7 @@ public interface Model {
     /**
      * Detects if the game is over.
      * <p>
-     * A game is over when a) the player got killed by falling boulders,
-     * b) the player reached the exit or c) the player abandoned.
+     * A game is over when the player lost all his lives or if there are no more levels to play.
      *
      * @return true if the game is over
      */

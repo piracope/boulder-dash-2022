@@ -18,6 +18,11 @@ public class Diamond extends FallingTile {
     }
 
     @Override
+    public boolean canFallOn() {
+        return false;
+    }
+
+    @Override
     public boolean canMoveIn(Direction dir) {
         return true;
     }

@@ -13,7 +13,7 @@ import model.Position;
  * and if there are empty tiles at the lower diagonals of the tile, the pile will topple
  * (the top tiles will fall at the free diagonal then continue their fall normally.)
  */
-public abstract class FallingTile extends ConcreteTile {
+public abstract class FallingTile implements Tile {
     protected final Level level;
     protected final Position position;
 
