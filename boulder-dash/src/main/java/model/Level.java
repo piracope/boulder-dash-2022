@@ -153,7 +153,7 @@ public class Level {
         }
         for (var line : map) {
             for (Tile t : line) {
-                if(t instanceof Player) {
+                if (t instanceof Player) {
                     state = LevelState.PLAYING;
                     return;
                 }

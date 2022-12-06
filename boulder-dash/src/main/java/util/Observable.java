@@ -6,12 +6,14 @@ package util;
 public interface Observable {
     /**
      * Adds an observer to the list of objects that observe this Observable.
+     *
      * @param o a non-null Observer
      */
     void registerObserver(Observer o);
 
     /**
      * Removes an observer from the list of objects that observe this Observable.
+     *
      * @param o an Observer
      */
     void removeObserver(Observer o);

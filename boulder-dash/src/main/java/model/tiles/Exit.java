@@ -4,6 +4,7 @@ import model.Direction;
 
 public class Exit implements Tile {
     private boolean isRevealed = false;
+
     @Override
     public boolean canFall() {
         return false;

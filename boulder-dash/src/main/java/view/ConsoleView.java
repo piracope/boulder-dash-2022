@@ -2,6 +2,7 @@ package view;
 
 import controller.BoulderDash;
 import model.Direction;
+
 import java.util.Scanner;
 
 public class ConsoleView {

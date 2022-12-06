@@ -1,6 +1,5 @@
 package model;
 
-import util.Observable;
 import util.Observer;
 
 import java.util.ArrayList;
@@ -10,6 +9,7 @@ public class Game implements Facade {
     private Level level;
     private int nbOfLives = 3;
     private final List<Observer> observers = new ArrayList<>();
+
     @Override
     public void start(int level) {
         this.level = new Level(level);
@@ -69,7 +69,7 @@ public class Game implements Facade {
 
     @Override
     public void registerObserver(Observer o) {
-        if(o != null) {
+        if (o != null) {
             observers.add(o);
         }
     }

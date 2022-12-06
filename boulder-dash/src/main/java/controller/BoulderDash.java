@@ -24,6 +24,7 @@ public class BoulderDash {
     public void abandon() {
         game.abandon();
     }
+
     public void handleState() {
         switch (game.getLevelState()) {
             case WON -> {

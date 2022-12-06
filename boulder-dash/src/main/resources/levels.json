@@ -1,14 +1,14 @@
 [
-	{
-		"map": "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\nW...... ..d.r .....r.r....... ....r....W\nW.rXr...... .........rd..r.... ..... ..W\nW.......... ..r.....r.r..r........r....W\nWr.rr.........r......r..r....r...r.....W\nWr. r......... r..r........r......r.rr.W\nW... ..r........r.....r. r........r.rr.W\nWwwwwwwwwwwwwwwwwwwwwwwwwwwwwww...r..r.W\nW. ...r..d. ..r.r..........d.rd...... .W\nW..d.....r..... ........rr r..r....r...W\nW...r..r.r..............r .r..r........W\nW.r.....r........rrr.......r.. .d....r.W\nW.d.. ..r.  .....r.rd..d....r...r..d. .W\nW. r..............r r..r........d.....rW\nW........wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwW\nW r.........r...d....r.....r...r.......W\nW r......... r..r........r......r.rr..PW\nW. ..r........r.....r.  ....d...r.rr...W\nW....rd..r........r......r.rd......r...W\nW... ..r. ..r.rr.........r.rd...... ..rW\nW.d.... ..... ......... .r..r....r...r.W\nWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
-		"minimumDiamonds": 12,
-		"length": 40,
-		"height": 22
-	},
-	{
-		"map": "WWWWWW\nWxr .W\nW.d .W\nW.. pW\nWWWWWW",
-		"minimumDiamonds": 1,
-		"length": 6,
-		"height": 5
-	}
+  {
+    "map": "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\nW...... ..d.r .....r.r....... ....r....W\nW.rXr...... .........rd..r.... ..... ..W\nW.......... ..r.....r.r..r........r....W\nWr.rr.........r......r..r....r...r.....W\nWr. r......... r..r........r......r.rr.W\nW... ..r........r.....r. r........r.rr.W\nWwwwwwwwwwwwwwwwwwwwwwwwwwwwwww...r..r.W\nW. ...r..d. ..r.r..........d.rd...... .W\nW..d.....r..... ........rr r..r....r...W\nW...r..r.r..............r .r..r........W\nW.r.....r........rrr.......r.. .d....r.W\nW.d.. ..r.  .....r.rd..d....r...r..d. .W\nW. r..............r r..r........d.....rW\nW........wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwW\nW r.........r...d....r.....r...r.......W\nW r......... r..r........r......r.rr..PW\nW. ..r........r.....r.  ....d...r.rr...W\nW....rd..r........r......r.rd......r...W\nW... ..r. ..r.rr.........r.rd...... ..rW\nW.d.... ..... ......... .r..r....r...r.W\nWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+    "minimumDiamonds": 12,
+    "length": 40,
+    "height": 22
+  },
+  {
+    "map": "WWWWWW\nWxr .W\nW.d .W\nW.. pW\nWWWWWW",
+    "minimumDiamonds": 1,
+    "length": 6,
+    "height": 5
+  }
 ]
