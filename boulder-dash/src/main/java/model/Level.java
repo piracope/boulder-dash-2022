@@ -6,6 +6,7 @@ import model.tiles.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -76,13 +77,12 @@ public class Level {
                     exitPos = new Position(col, line);
                     col++;
                 }
-                default -> {
+                case ' ' -> {
                     map[line][col] = new EmptyTile();
                     col++;
                 }
             }
         }
-
         if (playerPos == null) {
             throw new IllegalStateException("Level has no spawn point.");
         }

@@ -3,7 +3,7 @@ package model;
 /**
  * Facade of the Model.
  */
-public interface Model {
+public interface Facade {
     /**
      * Starts a game on a given level.
      *
@@ -42,7 +42,7 @@ public interface Model {
      * the direction of their move IF there's only one boulder. You cannot
      * move two boulders at once.
      */
-    void move();
+    void move(Direction dir);
 
     /**
      * Reverts the last move.
