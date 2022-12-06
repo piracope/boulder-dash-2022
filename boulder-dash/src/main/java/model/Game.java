@@ -6,10 +6,9 @@ import util.Observer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Game implements Facade, Observable {
+public class Game implements Facade {
     private Level level;
     private int nbOfLives = 3;
-
     private final List<Observer> observers = new ArrayList<>();
     @Override
     public void start(int level) {
@@ -23,8 +22,23 @@ public class Game implements Facade, Observable {
     }
 
     @Override
-    public boolean isGameWon() {
-        return level.isWon();
+    public LevelState getLevelState() {
+        return level.getState();
+    }
+
+    @Override
+    public int getMinimumDiamonds() {
+        return level.getMinimumDiamonds();
+    }
+
+    @Override
+    public int getDiamondCount() {
+        return level.getDiamondCount();
+    }
+
+    @Override
+    public int getLvlNumber() {
+        return level.getLvlNumber();
     }
 
     @Override

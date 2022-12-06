@@ -6,7 +6,6 @@ import model.tiles.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -19,12 +18,21 @@ import java.util.Objects;
  */
 public class Level {
     private static final String LEVELS_PATH = "/levels.json";
+
+    /* Positions */
     private final Tile[][] map;
-    private final int minimumDiamonds;
     private Position playerPos;
     private Position exitPos;
+
+    /* Diamonds */
+    private final int minimumDiamonds;
     private int diamondCount = 0;
 
+    /* Infos */
+    private LevelState state;
+    private final int lvlNumber;
+
+    /* Utility */
     private static class LevelJSON {
         public String map;
         public int minimumDiamonds;
@@ -117,7 +125,8 @@ public class Level {
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new IllegalArgumentException("Level does not exist.");
         }
-
+        this.state = LevelState.PLAYING;
+        this.lvlNumber = lvlNumber;
         makeFall();
     }
 
@@ -127,13 +136,32 @@ public class Level {
      * @param dir the direction towards which the player will move.
      */
     public void move(Direction dir) {
-        makeFall(); // here to avoid a boulder falling on the player just after the move
         Tile destinationTile = getTile(playerPos, dir);
         if (!destinationTile.canMoveIn(dir)) {
             throw new IllegalArgumentException("Cannot move player in this direction");
         }
         destinationTile.onMove(dir);
         moveTile(playerPos, dir);
+        makeFall();
+        updateState();
+    }
+
+    private void updateState() {
+        if (playerPos.equals(exitPos) && diamondCount >= minimumDiamonds) {
+            state = LevelState.WON;
+            return;
+        }
+        for (var line : map) {
+            for (Tile t : line) {
+                if(t instanceof Player) {
+                    state = LevelState.PLAYING;
+                    return;
+                }
+            }
+        }
+
+        state = LevelState.LOST;
+        playerPos = null;
     }
 
     public Tile getTile(Position pos, Direction dir) {
@@ -158,13 +186,25 @@ public class Level {
 
     public void collectDiamond() {
         diamondCount++;
-        if(diamondCount == minimumDiamonds) {
+        if (diamondCount == minimumDiamonds) {
             ((Exit) getTile(exitPos)).reveal();
         }
     }
 
-    public boolean isWon() {
-        return playerPos.equals(exitPos) && diamondCount >= minimumDiamonds;
+    public int getMinimumDiamonds() {
+        return minimumDiamonds;
+    }
+
+    public int getDiamondCount() {
+        return diamondCount;
+    }
+
+    public int getLvlNumber() {
+        return lvlNumber;
+    }
+
+    public LevelState getState() {
+        return state;
     }
 
     public void makeFall() {
@@ -188,17 +228,5 @@ public class Level {
             sb.append('\n');
         }
         return sb.toString();
-    }
-
-    public static void main(String[] args) {
-        Level lvl = new Level(1);
-        System.out.println(lvl);
-        lvl.move(Direction.RIGHT);
-        lvl.move(Direction.DOWN);
-        lvl.move(Direction.RIGHT);
-        lvl.move(Direction.RIGHT);
-        lvl.move(Direction.DOWN);
-        System.out.println(lvl);
-        System.out.println(lvl.isWon());
     }
 }

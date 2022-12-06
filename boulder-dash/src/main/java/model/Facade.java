@@ -1,9 +1,11 @@
 package model;
 
+import util.Observable;
+
 /**
  * Facade of the Model.
  */
-public interface Facade {
+public interface Facade extends Observable {
     /**
      * Starts a game on a given level.
      *
@@ -21,15 +23,17 @@ public interface Facade {
     boolean isGameOver();
 
     /**
-     * Detects if a level is won or if it's lost.
-     * <p>
-     * A level is won if the player got enough diamonds to reveal the exit,
-     * and reached said exit. A level is lost if the game is over without
-     * winning it.
+     * Returns the state of play for the currently playing level.
      *
-     * @return true if the game is won
+     * @return the level's state
      */
-    boolean isGameWon();
+    LevelState getLevelState();
+
+    int getMinimumDiamonds();
+
+    int getDiamondCount();
+
+    int getLvlNumber();
 
     /**
      * Make a move.

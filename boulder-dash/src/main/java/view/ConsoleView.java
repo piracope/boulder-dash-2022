@@ -1,23 +1,20 @@
 package view;
 
+import controller.BoulderDash;
 import model.Direction;
-import model.Game;
-import util.Observer;
-
 import java.util.Scanner;
 
-public class ConsoleView implements Observer {
-    private final Game game;
+public class ConsoleView {
+    private final BoulderDash game;
 
     public ConsoleView() {
-        this.game = new Game();
-        game.registerObserver(this);
+        this.game = new BoulderDash();
     }
 
-    public void start() {
+    public void play() {
         Scanner sc = new Scanner(System.in);
-        int currLevel = 1;
-        game.start(currLevel);
+        ConsoleDisplay gameView = new ConsoleDisplay(game.getFacade());
+        game.start();
         String input;
         do {
             System.out.print("> ");
@@ -36,14 +33,9 @@ public class ConsoleView implements Observer {
         }
     }
 
-    @Override
-    public void update() {
-        System.out.println(game.toString());
-    }
-
     public static void main(String[] args) {
         ConsoleView view = new ConsoleView();
-        view.start();
+        view.play();
     }
 
 }
