@@ -3,15 +3,19 @@ package controller;
 import model.Direction;
 import model.Facade;
 import model.Game;
+import view.ConsoleView;
+import view.View;
 
 public class BoulderDash {
     private final Facade game;
-    private int lvlNumber = 0;
+    private int lvlNumber = 1;
 
     private boolean isPlayOn = true;
 
     public BoulderDash() {
         this.game = new Game();
+        View view = new ConsoleView(this, game);
+        view.play();
     }
 
     public void start() {
@@ -42,10 +46,6 @@ public class BoulderDash {
                 case LOST -> start();
             }
         }
-    }
-
-    public Facade getFacade() {
-        return game;
     }
 
     public boolean isPlayOn() {

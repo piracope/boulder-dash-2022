@@ -2,19 +2,20 @@ package view;
 
 import controller.BoulderDash;
 import model.Direction;
+import model.Facade;
 
 import java.util.Scanner;
 
-public class ConsoleView {
+public class ConsoleView implements View {
     private final BoulderDash game;
 
-    public ConsoleView() {
-        this.game = new BoulderDash();
+    public ConsoleView(BoulderDash controller, Facade model) {
+        this.game = controller;
+        ConsoleDisplay gameView = new ConsoleDisplay(model);
     }
 
     public void play() {
         Scanner sc = new Scanner(System.in);
-        ConsoleDisplay gameView = new ConsoleDisplay(game.getFacade());
         game.start();
         String input;
         do {
@@ -43,8 +44,7 @@ public class ConsoleView {
     }
 
     public static void main(String[] args) {
-        ConsoleView view = new ConsoleView();
-        view.play();
+        BoulderDash game = new BoulderDash();
     }
 
 }

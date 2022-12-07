@@ -65,6 +65,8 @@ public class Game implements Facade {
     @Override
     public void undo() {
         // haha ouais de fou
+        // .........ok
+        // TODO : implement Command
     }
 
     @Override
