@@ -33,14 +33,6 @@ public class Level {
     private final int lvlNumber;
 
     /* Utility */
-    private static class LevelJSON {
-        public String map;
-        public int minimumDiamonds;
-        public int length;
-        public int height;
-
-    }
-
     private void processMap(String mapStr) {
         mapStr = mapStr.toLowerCase();
         int line = 0;
@@ -109,22 +101,10 @@ public class Level {
      * @throws IllegalArgumentException if there's no such level with this number.
      */
     public Level(int lvlNumber) {
-        Gson gson = new Gson();
-        try (BufferedReader br = new BufferedReader(
-                new InputStreamReader(
-                        Objects.requireNonNull(
-                                getClass().getResourceAsStream(LEVELS_PATH)
-                        )
-                ))) {
-            LevelJSON lv = gson.fromJson(br, LevelJSON[].class)[lvlNumber];
-            minimumDiamonds = lv.minimumDiamonds;
-            map = new Tile[lv.height][lv.length];
-            processMap(lv.map.toLowerCase());
-        } catch (IOException e) {
-            throw new RuntimeException("Cannot find " + LEVELS_PATH);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new IllegalArgumentException("Level does not exist.");
-        }
+        minimumDiamonds = JSONHandler.getInstance().getMinimumDiamonds(lvlNumber);
+        map = new Tile[JSONHandler.getInstance().getHeight(lvlNumber)]
+                [JSONHandler.getInstance().getLength(lvlNumber)];
+        processMap(JSONHandler.getInstance().getMap(lvlNumber));
         this.state = LevelState.PLAYING;
         this.lvlNumber = lvlNumber;
         makeFall();
