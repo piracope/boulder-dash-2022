@@ -8,12 +8,16 @@ public class BoulderDash {
     private final Facade game;
     private int lvlNumber = 0;
 
+    private boolean isPlayOn = true;
+
     public BoulderDash() {
         this.game = new Game();
     }
 
     public void start() {
-        game.start(lvlNumber);
+        if (isPlayOn) {
+            game.start(lvlNumber);
+        }
     }
 
     public void move(Direction dir) {
@@ -23,23 +27,28 @@ public class BoulderDash {
 
     public void abandon() {
         game.abandon();
+        handleState();
     }
 
-    public void handleState() {
-        switch (game.getLevelState()) {
-            case WON -> {
-                lvlNumber++;
-                start();
-            }
-            case LOST -> {
-                if (!game.isGameOver()) {
+    private void handleState() {
+        if(game.isGameOver()) {
+            isPlayOn = false;
+        } else {
+            switch (game.getLevelState()) {
+                case WON -> {
+                    lvlNumber++;
                     start();
                 }
+                case LOST -> start();
             }
         }
     }
 
     public Facade getFacade() {
         return game;
+    }
+
+    public boolean isPlayOn() {
+        return isPlayOn;
     }
 }

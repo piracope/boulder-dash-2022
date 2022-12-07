@@ -143,10 +143,9 @@ public class Level {
         destinationTile.onMove(dir);
         moveTile(playerPos, dir);
         makeFall();
-        updateState();
     }
 
-    private void updateState() {
+    public void updateState() {
         if (playerPos.equals(exitPos) && diamondCount >= minimumDiamonds) {
             state = LevelState.WON;
             return;
@@ -161,7 +160,6 @@ public class Level {
         }
 
         state = LevelState.LOST;
-        playerPos = null;
     }
 
     public Tile getTile(Position pos, Direction dir) {

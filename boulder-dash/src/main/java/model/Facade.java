@@ -35,6 +35,8 @@ public interface Facade extends Observable {
 
     int getLvlNumber();
 
+    int getNbOfLives();
+
     /**
      * Make a move.
      * <p>

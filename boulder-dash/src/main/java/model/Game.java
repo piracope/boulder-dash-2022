@@ -12,13 +12,16 @@ public class Game implements Facade {
 
     @Override
     public void start(int level) {
+        if (isGameOver()) {
+            throw new IllegalStateException("Game is over.");
+        }
         this.level = new Level(level);
         notifyObservers();
     }
 
     @Override
     public boolean isGameOver() {
-        return nbOfLives < 0;
+        return nbOfLives <= 0;
     }
 
     @Override
@@ -42,8 +45,20 @@ public class Game implements Facade {
     }
 
     @Override
+    public int getNbOfLives() {
+        return nbOfLives;
+    }
+
+    @Override
     public void move(Direction dir) {
+        if (isGameOver()) {
+            throw new IllegalStateException("Game is over.");
+        }
         level.move(dir);
+        level.updateState();
+        if(getLevelState() == LevelState.LOST) {
+            nbOfLives--;
+        }
         notifyObservers();
     }
 

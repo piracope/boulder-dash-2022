@@ -20,8 +20,12 @@ public class ConsoleView {
         do {
             System.out.print("> ");
             input = sc.nextLine().toLowerCase().strip();
-            processInput(input);
-        } while (!input.equals("stop"));
+            try {
+                processInput(input);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Cannot move in this direction!");
+            }
+        } while (game.isPlayOn());
     }
 
     private void processInput(String input) {
@@ -30,6 +34,7 @@ public class ConsoleView {
             case "left" -> game.move(Direction.LEFT);
             case "up" -> game.move(Direction.UP);
             case "down" -> game.move(Direction.DOWN);
+            case "abandon" -> game.abandon();
             default -> System.out.println("No such direction.");
         }
     }
