@@ -26,7 +26,7 @@ public class Boulder extends FallingTile {
 
     @Override
     public String toString() {
-        return "b";
+        return "r";
     }
 
     @Override

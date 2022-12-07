@@ -1,17 +1,25 @@
 package model;
 
+import model.commands.MoveCommand;
+import util.Command;
 import util.Observer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class Game implements Facade {
     private Level level;
     private int nbOfLives = 3;
     private final List<Observer> observers = new ArrayList<>();
 
+    private final Stack<Command> history = new Stack<>();
+    private final Stack<Command> redoHistory = new Stack<>();
+
     @Override
     public void start(int level) {
+        history.clear();
+        redoHistory.clear();
         if (isGameOver()) {
             throw new IllegalStateException("Game is over.");
         }
@@ -54,8 +62,9 @@ public class Game implements Facade {
         if (isGameOver()) {
             throw new IllegalStateException("Game is over.");
         }
-        level.move(dir);
-        level.updateState();
+        Command move = new MoveCommand(level, dir);
+        move.execute();
+        history.add(move);
         if(getLevelState() == LevelState.LOST) {
             nbOfLives--;
         }
@@ -64,14 +73,16 @@ public class Game implements Facade {
 
     @Override
     public void undo() {
-        // haha ouais de fou
-        // .........ok
-        // TODO : implement Command
+        Command toUndo = history.pop();
+        toUndo.undo();
+        redoHistory.add(toUndo);
+        notifyObservers();
     }
 
     @Override
     public void redo() {
-        // haha comment j'ai pas envie
+        redoHistory.pop().execute();
+        notifyObservers();
     }
 
     @Override

@@ -9,7 +9,6 @@ import view.View;
 public class BoulderDash {
     private final Facade game;
     private int lvlNumber = 1;
-
     private boolean isPlayOn = true;
 
     public BoulderDash() {
@@ -32,6 +31,14 @@ public class BoulderDash {
     public void abandon() {
         game.abandon();
         handleState();
+    }
+
+    public void undo() {
+        game.undo();
+    }
+
+    public void redo() {
+        game.redo();
     }
 
     private void handleState() {

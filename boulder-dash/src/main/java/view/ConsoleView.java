@@ -38,6 +38,8 @@ public class ConsoleView implements View {
             case "left" -> game.move(Direction.LEFT);
             case "up" -> game.move(Direction.UP);
             case "down" -> game.move(Direction.DOWN);
+            case "undo" -> game.undo();
+            case "redo" -> game.redo();
             case "abandon" -> game.abandon();
             default -> System.out.println("No such direction.");
         }

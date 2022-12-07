@@ -17,8 +17,6 @@ import java.util.Objects;
  * The level is won when that exit is reached.
  */
 public class Level {
-    private static final String LEVELS_PATH = "/levels.json";
-
     /* Positions */
     private final Tile[][] map;
     private Position playerPos;
@@ -33,7 +31,7 @@ public class Level {
     private final int lvlNumber;
 
     /* Utility */
-    private void processMap(String mapStr) {
+    public void processMap(String mapStr) {
         mapStr = mapStr.toLowerCase();
         int line = 0;
         int col = 0;
@@ -53,9 +51,10 @@ public class Level {
                     col++;
                 }
                 case 'x' -> {
+                    /*
                     if (playerPos != null) {
                         throw new IllegalStateException("Level has more than 1 spawn point.");
-                    }
+                    }*/
                     playerPos = new Position(col, line);
                     map[line][col] = new Player();
 
@@ -70,9 +69,10 @@ public class Level {
                     col = 0;
                 }
                 case 'p' -> {
+                    /*
                     if (exitPos != null) {
                         throw new IllegalStateException("Level has more than 1 exit point.");
-                    }
+                    }*/
                     map[line][col] = new Exit();
                     exitPos = new Position(col, line);
                     col++;
