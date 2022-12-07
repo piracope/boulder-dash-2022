@@ -142,7 +142,9 @@ public class Level {
         }
         destinationTile.onMove(dir);
         moveTile(playerPos, dir);
-        makeFall();
+        if(!getTile(playerPos, Direction.UP).canFall()) {
+            makeFall();
+        }
     }
 
     public void updateState() {

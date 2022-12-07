@@ -24,6 +24,9 @@ public class ConsoleView {
                 processInput(input);
             } catch (IllegalArgumentException e) {
                 System.out.println("Cannot move in this direction!");
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("You won !!!");
+                System.exit(0);
             }
         } while (game.isPlayOn());
     }
