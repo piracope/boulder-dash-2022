@@ -3,17 +3,25 @@ package controller;
 import model.Direction;
 import model.Facade;
 import model.Game;
-import view.ConsoleView;
 import view.View;
+import view.javafx.MainWindow;
 
 public class BoulderDash {
     private final Facade game;
     private int lvlNumber = 1;
     private boolean isPlayOn = true;
 
+    // temporary
+
+
+    public Facade getGame() {
+        return game;
+    }
+
     public BoulderDash() {
         this.game = new Game();
-        View view = new ConsoleView(this, game);
+        //View view = new ConsoleView(this, game);
+        View view = new MainWindow(this, game);
         view.play();
     }
 

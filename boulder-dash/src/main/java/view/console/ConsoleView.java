@@ -1,8 +1,9 @@
-package view;
+package view.console;
 
 import controller.BoulderDash;
 import model.Direction;
 import model.Facade;
+import view.View;
 
 import java.util.EmptyStackException;
 import java.util.Scanner;
@@ -84,10 +85,6 @@ public class ConsoleView implements View {
                  P  -> The exit. The exit acts like a wall when not enough diamonds were collected. If the player enters
                        the exit, he won the level and the next one is started.
                 """);
-    }
-
-    public static void main(String[] args) {
-        BoulderDash game = new BoulderDash();
     }
 
 }
