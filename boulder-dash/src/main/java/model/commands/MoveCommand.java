@@ -7,8 +7,8 @@ public class MoveCommand implements Command {
     private final Level level;
     private final Direction dir;
 
-    // to restore
-    private String oldState;
+    private int oldDiamoundCount;
+
 
 
     public MoveCommand(Level level, Direction dir) {
@@ -18,17 +18,15 @@ public class MoveCommand implements Command {
 
     @Override
     public void execute() {
-        oldState = level.toString();
+        oldDiamoundCount = level.getDiamondCount();
         level.move(dir);
         level.updateState();
-
-        // TODO : restoring diamondCount too
     }
 
     @Override
     public void undo() {
-        // TODO : don't do that
-        level.processMap(oldState);
+        // TODO : implement this
+        level.setDiamondCount(oldDiamoundCount);
         level.updateState();
     }
 }

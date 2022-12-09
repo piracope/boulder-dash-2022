@@ -31,7 +31,7 @@ public class Level {
     private final int lvlNumber;
 
     /* Utility */
-    public void processMap(String mapStr) {
+    private void processMap(String mapStr) {
         mapStr = mapStr.toLowerCase();
         int line = 0;
         int col = 0;
@@ -51,10 +51,9 @@ public class Level {
                     col++;
                 }
                 case 'x' -> {
-                    /*
                     if (playerPos != null) {
                         throw new IllegalStateException("Level has more than 1 spawn point.");
-                    }*/
+                    }
                     playerPos = new Position(col, line);
                     map[line][col] = new Player();
 
@@ -69,10 +68,9 @@ public class Level {
                     col = 0;
                 }
                 case 'p' -> {
-                    /*
                     if (exitPos != null) {
                         throw new IllegalStateException("Level has more than 1 exit point.");
-                    }*/
+                    }
                     map[line][col] = new Exit();
                     exitPos = new Position(col, line);
                     col++;
@@ -177,6 +175,13 @@ public class Level {
 
     public int getDiamondCount() {
         return diamondCount;
+    }
+
+    public void setDiamondCount(int diamondCount) {
+        if(diamondCount > this.diamondCount) {
+            throw new IllegalStateException("Suspicious setter usage.");
+        }
+        this.diamondCount = diamondCount;
     }
 
     public int getLvlNumber() {
