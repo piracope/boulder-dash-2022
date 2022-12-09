@@ -1,9 +1,8 @@
 package model.tiles;
 
 import model.Direction;
-import model.Position;
 
-import java.util.Map;
+import java.util.Stack;
 
 /**
  * A Soil tile is a tile that can be consumed by the player.
@@ -27,7 +26,7 @@ public class Soil implements Tile {
     }
 
     @Override
-    public Map<Tile, Position> onMove(Direction dir) {
+    public Stack<Move> onMove(Direction dir) {
 
         return null;
     }

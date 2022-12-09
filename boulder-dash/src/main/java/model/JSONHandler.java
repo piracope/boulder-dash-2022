@@ -1,7 +1,6 @@
 package model;
 
 import com.google.gson.Gson;
-import model.tiles.Tile;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,7 +22,7 @@ public class JSONHandler {
     }
 
     public JSONHandler() {
-        if(instance == null) {
+        if (instance == null) {
             Gson gson = new Gson();
             try (BufferedReader br = new BufferedReader(
                     new InputStreamReader(
@@ -51,9 +50,11 @@ public class JSONHandler {
     public int getMinimumDiamonds(int lvlNumber) {
         return levels[lvlNumber].minimumDiamonds;
     }
+
     public int getLength(int lvlNumber) {
         return levels[lvlNumber].length;
     }
+
     public int getHeight(int lvlNumber) {
         return levels[lvlNumber].height;
     }

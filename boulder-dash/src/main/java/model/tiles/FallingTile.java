@@ -4,8 +4,6 @@ import model.Direction;
 import model.Level;
 import model.Position;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Stack;
 
 /**
@@ -31,21 +29,21 @@ public abstract class FallingTile implements Tile {
         return true;
     }
 
-    public Map<Tile, Position> fall() {
-        Map<Tile, Position> ret = new HashMap<>(2);
+    public Stack<Move> fall() {
+        Stack<Move> ret = new Stack<>();
         Position oldPos = new Position(position);
         Tile affected = fallReal(null);
-        if(affected != null) {
-            ret.put(this, oldPos);
-            ret.put(affected, new Position(position));
+        if (affected != null) {
+            ret.add(new Move(this, oldPos));
+            ret.add(new Move(affected, new Position(position)));
         }
         return ret;
     }
 
     private Tile fallReal(Tile toRet) {
-        for(Direction dir : new Direction[]{Direction.DOWN, Direction.DOWN_LEFT, Direction.DOWN_RIGHT}) {
+        for (Direction dir : new Direction[]{Direction.DOWN, Direction.DOWN_LEFT, Direction.DOWN_RIGHT}) {
             Tile affectedTile = fallDown(dir);
-            if(affectedTile != null) {
+            if (affectedTile != null) {
                 return fallReal(affectedTile);
             }
         }

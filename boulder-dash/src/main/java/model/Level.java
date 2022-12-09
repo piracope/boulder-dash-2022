@@ -1,15 +1,8 @@
 package model;
 
-import com.google.gson.Gson;
 import model.tiles.*;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.AbstractMap;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.Stack;
 
 /**
  * A Level is a specific map of different tiles in which the player can play.
@@ -116,35 +109,38 @@ public class Level {
      *
      * @param dir the direction towards which the player will move.
      */
-    public Map<Tile, Position> move(Direction dir) {
-        Map<Tile, Position> ret = new HashMap<>();
+    public Stack<Move> move(Direction dir) {
+        Stack<Move> ret = new Stack<>(); // for move history
         Tile destinationTile = getTile(playerPos, dir);
-        if (!destinationTile.canMoveIn(dir)) {
+        if (!destinationTile.canMoveIn(dir)) { // check if the player can move in that tile
             throw new IllegalArgumentException("Cannot move player in this direction");
         }
+        // possiblePush : a pair of Moves, if the destination tile is a boulder that was pushed
         var possiblePush = destinationTile.onMove(dir);
-        ret.putAll(moveTile(playerPos, dir));
-        ret.putAll(makeFall());
-        if(possiblePush != null) {
-            ret.putAll(possiblePush);
+        if (possiblePush != null) {
+            ret.addAll(possiblePush); // first, register the pushing of the boulder
         }
+        ret.addAll(moveTile(playerPos, dir)); // then register the player's move
+        ret.addAll(makeFall()); // then at last, register the tiles that fell
         return ret;
     }
 
     public void updateState() {
+        // The player cannot be on the exit if it hasn't been revealed.
         if (playerPos.equals(exitPos) && diamondCount >= minimumDiamonds) {
             state = LevelState.WON;
             return;
         }
         for (var line : map) {
             for (Tile t : line) {
-                if (t instanceof Player) {
+                if (t instanceof Player) { // FIXME : instanceof ok ?
                     state = LevelState.PLAYING;
                     return;
                 }
             }
         }
 
+        // the game is lost when the player disappears (he's under a boulder D: )
         state = LevelState.LOST;
     }
 
@@ -156,36 +152,40 @@ public class Level {
         return map[pos.getY()][pos.getX()];
     }
 
+    // FIXME : encapsulation :))))))
     public void setTile(Tile toSet, Position pos) {
         map[pos.getY()][pos.getX()] = toSet;
     }
 
-    public Map<Tile, Position> moveTile(Position pos, Direction dir) {
+    public Stack<Move> moveTile(Position pos, Direction dir) {
         Tile t = getTile(pos);
-        Map<Tile, Position> ret = new HashMap<>(2);
-        ret.put(t, new Position(pos));
-        ret.put(map[pos.getY() + dir.getDy()][pos.getX() + dir.getDx()], pos.addDirection(dir));
+        // register the pre-move state of the affected tiles
+        Stack<Move> ret = new Stack<>();
+        ret.add(new Move(t, new Position(pos))); // the tile that will move
+        // the tile that will disappear
+        ret.add(new Move(map[pos.getY() + dir.getDy()][pos.getX() + dir.getDx()], pos.addDirection(dir)));
 
         map[pos.getY() + dir.getDy()][pos.getX() + dir.getDx()] = t;
-        map[pos.getY()][pos.getX()] = new EmptyTile();
+        map[pos.getY()][pos.getX()] = new EmptyTile(); // a tile we leave is always an empty tile
         if (t.canFall()) {
-            ((FallingTile) t).updatePosition(dir);
+            ((FallingTile) t).updatePosition(dir); // FIXME : should it be level that handles the position ?
         }
         if (pos.equals(playerPos)) {
             playerPos.move(dir);
         }
 
         return ret;
-
-        // FIXME : when boulder is pushed then falls, both boulder move AND fall are in the map.
     }
-    public Map<Tile, Position> makeFall() {
-        Map<Tile, Position> ret = new HashMap<>();
+
+    public Stack<Move> makeFall() {
+        Stack<Move> ret = new Stack<>();
         for (int y = map.length - 1; y >= 0; y--) {
             for (int x = 0; x < map[y].length; x++) {
                 Tile t = map[y][x];
+                // condition to let everything fall except something JUST above the player
+                // (if he's in that situation, it means he just made a move under a boulder)
                 if (t.canFall() && getTile(playerPos, Direction.UP) != t) {
-                    ret.putAll(((FallingTile) t).fall());
+                    ret.addAll(((FallingTile) t).fall()); // add all moves made by that fall to the history stack
                 }
             }
         }
@@ -209,12 +209,14 @@ public class Level {
     }
 
     public void setDiamondCount(int diamondCount) {
+        // FIXME : may be a useless setter
         if (diamondCount > this.diamondCount) {
             throw new IllegalStateException("Suspicious setter usage.");
         }
         this.diamondCount = diamondCount;
     }
 
+    // FIXME : another dangerous setter
     public void changePlayerPos(Direction dir) {
         playerPos.move(dir);
     }

@@ -4,7 +4,7 @@ import model.Direction;
 import model.Level;
 import model.Position;
 
-import java.util.Map;
+import java.util.Stack;
 
 /**
  * A Diamond is a collectible tile that can fall.
@@ -30,7 +30,7 @@ public class Diamond extends FallingTile {
     }
 
     @Override
-    public Map<Tile, Position> onMove(Direction dir) {
+    public Stack<Move> onMove(Direction dir) {
         level.collectDiamond();
         return null;
     }

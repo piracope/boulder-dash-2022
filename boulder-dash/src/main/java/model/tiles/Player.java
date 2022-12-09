@@ -1,9 +1,8 @@
 package model.tiles;
 
 import model.Direction;
-import model.Position;
 
-import java.util.Map;
+import java.util.Stack;
 
 /**
  * The Player tile is the tile where the player is currently at.
@@ -20,7 +19,7 @@ public class Player implements Tile {
     }
 
     @Override
-    public Map<Tile, Position> onMove(Direction dir) {
+    public Stack<Move> onMove(Direction dir) {
 
         return null;
     }

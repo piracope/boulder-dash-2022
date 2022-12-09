@@ -1,9 +1,8 @@
 package model.tiles;
 
 import model.Direction;
-import model.Position;
 
-import java.util.Map;
+import java.util.Stack;
 
 /**
  * A Wall is a stationary Tile. It doesn't move and nothing can pass through it.
@@ -25,7 +24,7 @@ public class Wall implements Tile {
     }
 
     @Override
-    public Map<Tile, Position> onMove(Direction dir) {
+    public Stack<Move> onMove(Direction dir) {
 
         return null;
     }

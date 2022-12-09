@@ -65,7 +65,8 @@ public class Game implements Facade {
         Command move = new MoveCommand(level, dir);
         move.execute();
         history.add(move);
-        if(getLevelState() == LevelState.LOST) {
+        redoHistory.clear();
+        if (getLevelState() == LevelState.LOST) {
             nbOfLives--;
         }
         notifyObservers();

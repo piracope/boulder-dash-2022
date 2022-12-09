@@ -1,9 +1,8 @@
 package model.tiles;
 
 import model.Direction;
-import model.Position;
 
-import java.util.Map;
+import java.util.Stack;
 
 /**
  * A Tile is a discrete element of the world.
@@ -35,5 +34,5 @@ public interface Tile {
      *
      * @return
      */
-    Map<Tile, Position> onMove(Direction dir);
+    Stack<Move> onMove(Direction dir);
 }

@@ -1,9 +1,8 @@
 package model.tiles;
 
 import model.Direction;
-import model.Position;
 
-import java.util.Map;
+import java.util.Stack;
 
 /**
  * An EmptyTile is a Tile with nothing in it.
@@ -15,7 +14,7 @@ public class EmptyTile implements Tile {
     }
 
     @Override
-    public Map<Tile, Position> onMove(Direction dir) {
+    public Stack<Move> onMove(Direction dir) {
         return null;
     }
 

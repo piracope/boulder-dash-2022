@@ -23,7 +23,7 @@ public class ConsoleDisplay implements Observer {
             case LOST -> System.out.println("You were crushed....");
             case WON -> System.out.println("You found the exit !!!");
         }
-        if(game.isGameOver()) {
+        if (game.isGameOver()) {
             System.out.println("Game Over....");
         }
     }

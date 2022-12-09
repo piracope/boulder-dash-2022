@@ -1,11 +1,11 @@
 package model.commands;
 
-import model.*;
+import model.Direction;
+import model.Level;
 import model.tiles.FallingTile;
-import model.tiles.Tile;
+import model.tiles.Move;
 import util.Command;
 
-import java.util.Map;
 import java.util.Stack;
 
 public class MoveCommand implements Command {
@@ -14,8 +14,7 @@ public class MoveCommand implements Command {
 
     private int oldDiamondCount;
 
-    private Map<Tile, Position> oldPositions;
-
+    private Stack<Move> oldPositions;
 
 
     public MoveCommand(Level level, Direction dir) {
@@ -29,9 +28,6 @@ public class MoveCommand implements Command {
         oldPositions = level.move(dir);
         level.updateState();
 
-        for (var thing : oldPositions.entrySet()) {
-            System.out.println("" + thing.getKey() + thing.getValue().getY() + " " + thing.getValue().getX());
-        }
     }
 
     @Override
@@ -39,13 +35,15 @@ public class MoveCommand implements Command {
         // TODO : implement this
         level.setDiamondCount(oldDiamondCount);
         level.changePlayerPos(dir.getOpposite());
-        level.updateState();
 
-        for (var thing : oldPositions.entrySet()) {
-            level.setTile(thing.getKey(), thing.getValue());
-            if(thing.getKey().canFall()) {
-                ((FallingTile) thing.getKey()).updatePosition(thing.getValue());
+        while (!oldPositions.isEmpty()) {
+            Move move = oldPositions.pop();
+            level.setTile(move.tile(), move.position());
+            if (move.tile().canFall()) {
+                ((FallingTile) move.tile()).updatePosition(move.position());
             }
         }
+
+        level.updateState();
     }
 }

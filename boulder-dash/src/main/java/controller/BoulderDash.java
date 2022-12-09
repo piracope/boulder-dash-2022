@@ -8,7 +8,7 @@ import view.View;
 
 public class BoulderDash {
     private final Facade game;
-    private int lvlNumber = 0;
+    private int lvlNumber = 1;
     private boolean isPlayOn = true;
 
     public BoulderDash() {
@@ -42,7 +42,7 @@ public class BoulderDash {
     }
 
     private void handleState() {
-        if(game.isGameOver()) {
+        if (game.isGameOver()) {
             isPlayOn = false;
         } else {
             switch (game.getLevelState()) {
