@@ -1,6 +1,9 @@
 package model.tiles;
 
 import model.Direction;
+import model.Position;
+
+import java.util.Map;
 
 public class Exit implements Tile {
     private boolean isRevealed = false;
@@ -21,7 +24,8 @@ public class Exit implements Tile {
     }
 
     @Override
-    public void onMove(Direction dir) {
+    public Map<Tile, Position> onMove(Direction dir) {
+        return null;
     }
 
     public void reveal() {

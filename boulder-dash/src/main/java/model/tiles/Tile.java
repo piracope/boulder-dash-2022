@@ -1,6 +1,9 @@
 package model.tiles;
 
 import model.Direction;
+import model.Position;
+
+import java.util.Map;
 
 /**
  * A Tile is a discrete element of the world.
@@ -29,6 +32,8 @@ public interface Tile {
 
     /**
      * Does an action whenever the player requests a move.
+     *
+     * @return
      */
-    void onMove(Direction dir);
+    Map<Tile, Position> onMove(Direction dir);
 }

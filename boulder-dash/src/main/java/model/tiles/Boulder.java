@@ -4,6 +4,8 @@ import model.Direction;
 import model.Level;
 import model.Position;
 
+import java.util.Map;
+
 /**
  * A Boulder is a tile that can fall.
  * <p>
@@ -30,9 +32,9 @@ public class Boulder extends FallingTile {
     }
 
     @Override
-    public void onMove(Direction dir) {
+    public Map<Tile, Position> onMove(Direction dir) {
         if (canMoveIn(dir)) {
-            level.moveTile(position, dir);
+            return level.moveTile(position, dir);
         } else {
             throw new IllegalArgumentException("Cannot move in this direction.");
         }

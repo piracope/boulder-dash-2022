@@ -11,6 +11,11 @@ public class Position {
         this.y = y;
     }
 
+    public Position(Position p) {
+        this.x = p.x;
+        this.y = p.y;
+    }
+
     public void move(Direction dir) {
         Position newPos = addDirection(dir);
         this.x = newPos.x;

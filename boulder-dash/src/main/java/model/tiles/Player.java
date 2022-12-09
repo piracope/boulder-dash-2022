@@ -1,6 +1,9 @@
 package model.tiles;
 
 import model.Direction;
+import model.Position;
+
+import java.util.Map;
 
 /**
  * The Player tile is the tile where the player is currently at.
@@ -17,8 +20,9 @@ public class Player implements Tile {
     }
 
     @Override
-    public void onMove(Direction dir) {
+    public Map<Tile, Position> onMove(Direction dir) {
 
+        return null;
     }
 
     @Override

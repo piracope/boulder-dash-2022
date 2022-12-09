@@ -8,7 +8,7 @@ import view.View;
 
 public class BoulderDash {
     private final Facade game;
-    private int lvlNumber = 1;
+    private int lvlNumber = 0;
     private boolean isPlayOn = true;
 
     public BoulderDash() {

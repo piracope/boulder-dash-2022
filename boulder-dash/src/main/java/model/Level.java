@@ -6,6 +6,9 @@ import model.tiles.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.AbstractMap;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -113,16 +116,19 @@ public class Level {
      *
      * @param dir the direction towards which the player will move.
      */
-    public void move(Direction dir) {
+    public Map<Tile, Position> move(Direction dir) {
+        Map<Tile, Position> ret = new HashMap<>();
         Tile destinationTile = getTile(playerPos, dir);
         if (!destinationTile.canMoveIn(dir)) {
             throw new IllegalArgumentException("Cannot move player in this direction");
         }
-        destinationTile.onMove(dir);
-        moveTile(playerPos, dir);
-        if(!getTile(playerPos, Direction.UP).canFall()) {
-            makeFall();
+        var possiblePush = destinationTile.onMove(dir);
+        ret.putAll(moveTile(playerPos, dir));
+        ret.putAll(makeFall());
+        if(possiblePush != null) {
+            ret.putAll(possiblePush);
         }
+        return ret;
     }
 
     public void updateState() {
@@ -150,8 +156,16 @@ public class Level {
         return map[pos.getY()][pos.getX()];
     }
 
-    public void moveTile(Position pos, Direction dir) {
+    public void setTile(Tile toSet, Position pos) {
+        map[pos.getY()][pos.getX()] = toSet;
+    }
+
+    public Map<Tile, Position> moveTile(Position pos, Direction dir) {
         Tile t = getTile(pos);
+        Map<Tile, Position> ret = new HashMap<>(2);
+        ret.put(t, new Position(pos));
+        ret.put(map[pos.getY() + dir.getDy()][pos.getX() + dir.getDx()], pos.addDirection(dir));
+
         map[pos.getY() + dir.getDy()][pos.getX() + dir.getDx()] = t;
         map[pos.getY()][pos.getX()] = new EmptyTile();
         if (t.canFall()) {
@@ -160,6 +174,23 @@ public class Level {
         if (pos.equals(playerPos)) {
             playerPos.move(dir);
         }
+
+        return ret;
+
+        // FIXME : when boulder is pushed then falls, both boulder move AND fall are in the map.
+    }
+    public Map<Tile, Position> makeFall() {
+        Map<Tile, Position> ret = new HashMap<>();
+        for (int y = map.length - 1; y >= 0; y--) {
+            for (int x = 0; x < map[y].length; x++) {
+                Tile t = map[y][x];
+                if (t.canFall() && getTile(playerPos, Direction.UP) != t) {
+                    ret.putAll(((FallingTile) t).fall());
+                }
+            }
+        }
+
+        return ret;
     }
 
     public void collectDiamond() {
@@ -178,10 +209,14 @@ public class Level {
     }
 
     public void setDiamondCount(int diamondCount) {
-        if(diamondCount > this.diamondCount) {
+        if (diamondCount > this.diamondCount) {
             throw new IllegalStateException("Suspicious setter usage.");
         }
         this.diamondCount = diamondCount;
+    }
+
+    public void changePlayerPos(Direction dir) {
+        playerPos.move(dir);
     }
 
     public int getLvlNumber() {
@@ -190,17 +225,6 @@ public class Level {
 
     public LevelState getState() {
         return state;
-    }
-
-    public void makeFall() {
-        for (int y = map.length - 1; y >= 0; y--) {
-            for (int x = 0; x < map[y].length; x++) {
-                if (map[y][x].canFall()) {
-                    FallingTile f = (FallingTile) map[y][x];
-                    f.fall();
-                }
-            }
-        }
     }
 
     @Override

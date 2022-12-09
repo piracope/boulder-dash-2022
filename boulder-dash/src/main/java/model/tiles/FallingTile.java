@@ -4,6 +4,10 @@ import model.Direction;
 import model.Level;
 import model.Position;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
+
 /**
  * A FallingTile is a Tile that is subject to gravity.
  * <p>
@@ -15,7 +19,7 @@ import model.Position;
  */
 public abstract class FallingTile implements Tile {
     protected final Level level;
-    protected final Position position;
+    protected Position position;
 
     public FallingTile(Level level, Position position) {
         this.level = level;
@@ -27,25 +31,45 @@ public abstract class FallingTile implements Tile {
         return true;
     }
 
-    public void fall() {
-        if (fallDown(Direction.DOWN) || fallDown(Direction.DOWN_LEFT) || fallDown(Direction.DOWN_RIGHT)) {
-            fall();
+    public Map<Tile, Position> fall() {
+        Map<Tile, Position> ret = new HashMap<>(2);
+        Position oldPos = new Position(position);
+        Tile affected = fallReal(null);
+        if(affected != null) {
+            ret.put(this, oldPos);
+            ret.put(affected, new Position(position));
         }
+        return ret;
+    }
+
+    private Tile fallReal(Tile toRet) {
+        for(Direction dir : new Direction[]{Direction.DOWN, Direction.DOWN_LEFT, Direction.DOWN_RIGHT}) {
+            Tile affectedTile = fallDown(dir);
+            if(affectedTile != null) {
+                return fallReal(affectedTile);
+            }
+        }
+        return toRet;
     }
 
     public void updatePosition(Direction dir) {
         position.move(dir);
     }
 
-    private boolean fallDown(Direction dir) {
+    public void updatePosition(Position pos) {
+        position = pos;
+    }
+
+    private Tile fallDown(Direction dir) {
         Tile diag = level.getTile(position, dir);
         Tile side = level.getTile(position, dir.getComponents()[1]);
         Tile under = level.getTile(position, Direction.DOWN);
         if (under.canFallOn() || under.canFall() && side.canFallOn() && diag.canFallOn()) {
+            Tile affectedTile = level.getTile(position, dir);
             level.moveTile(position, dir);
-            return true;
+            return affectedTile;
         }
 
-        return false;
+        return null;
     }
 }
