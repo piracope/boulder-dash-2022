@@ -27,7 +27,6 @@ public class Soil implements Tile {
 
     @Override
     public Stack<Move> onMove(Direction dir) {
-
         return null;
     }
 

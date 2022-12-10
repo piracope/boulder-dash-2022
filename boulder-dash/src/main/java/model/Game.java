@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+/**
+ * A concrete implementation of Facade.
+ */
 public class Game implements Facade {
     private Level level;
     private int nbOfLives = 3;

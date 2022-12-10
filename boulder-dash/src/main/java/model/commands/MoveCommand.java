@@ -8,6 +8,11 @@ import util.Command;
 
 import java.util.Stack;
 
+/**
+ * A MoveCommand is a Command that initiates a move of the player in a certain direction.
+ *
+ * Undoing this command puts every affected tile back to its original position while ensuring model logic.
+ */
 public class MoveCommand implements Command {
     private final Level level;
     private final Direction dir;
@@ -17,6 +22,11 @@ public class MoveCommand implements Command {
     private Stack<Move> oldPositions;
 
 
+    /**
+     * Creates a new MoveCommand.
+     * @param level the level the move will be played on
+     * @param dir the direction of the move
+     */
     public MoveCommand(Level level, Direction dir) {
         this.level = level;
         this.dir = dir;

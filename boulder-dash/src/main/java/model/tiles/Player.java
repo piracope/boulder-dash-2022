@@ -20,7 +20,6 @@ public class Player implements Tile {
 
     @Override
     public Stack<Move> onMove(Direction dir) {
-
         return null;
     }
 

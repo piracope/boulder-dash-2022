@@ -23,16 +23,22 @@ public interface Tile {
     boolean canFallOn();
 
     /**
-     * Checks if the player can move towards this shape.
+     * Checks if the player can move in the direction of this tile.
      *
-     * @return true if we can move in this shape
+     * @param dir the direction of the move
+     * @return true if the player can move on this tile
      */
     boolean canMoveIn(Direction dir);
 
     /**
      * Does an action whenever the player requests a move.
+     * <p>
+     * If the action of a Tile involves modifying other Tiles on a level,
+     * it must return the original state of the affected tiles (itself + any other affected).
+     * Otherwise, it will return null.
      *
-     * @return
+     * @param dir the direction of the move
+     * @return the original state of tiles affected by this method, or null if not applicable.
      */
     Stack<Move> onMove(Direction dir);
 }

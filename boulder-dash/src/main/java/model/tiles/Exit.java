@@ -27,6 +27,9 @@ public class Exit implements Tile {
         return null;
     }
 
+    /**
+     * Reveals this Exit.
+     */
     public void reveal() {
         isRevealed = true;
     }

@@ -87,4 +87,8 @@ public class ConsoleView implements View {
                 """);
     }
 
+    public static void main(String[] args) {
+        BoulderDash bd = new BoulderDash();
+    }
+
 }

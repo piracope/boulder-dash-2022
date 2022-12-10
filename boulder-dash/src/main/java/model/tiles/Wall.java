@@ -25,7 +25,6 @@ public class Wall implements Tile {
 
     @Override
     public Stack<Move> onMove(Direction dir) {
-
         return null;
     }
 

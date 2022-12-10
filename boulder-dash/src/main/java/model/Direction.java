@@ -1,5 +1,11 @@
 package model;
 
+/**
+ * A Direction is a vector that gives the amount of displacement in both x and y-axis a movement of one unit
+ * in that direction would cause.
+ * <p>
+ * N.B. : This class uses the Position x and y, meaning that x is the horizontal axis, and y is vertical.
+ */
 public enum Direction {
     UP(0, -1),
     DOWN(0, 1),
@@ -26,6 +32,14 @@ public enum Direction {
         return dy;
     }
 
+    /**
+     * Returns the 2 components of a Direction.
+     * <p>
+     * A Direction's components are its horizontal and vertical constituents. For example, DOWN_LEFT is composed
+     * of both DOWN and LEFT. For straight directions, the components will be itself.
+     *
+     * @return a Direction[2], the components (twice "this" if the Direction is straight)
+     */
     public Direction[] getComponents() {
         switch (this) {
             case UP_LEFT -> {
@@ -46,6 +60,13 @@ public enum Direction {
         }
     }
 
+    /**
+     * Returns the direction facing towards the opposite of this Direction.
+     * <p>
+     * For example, DOWN.getOpposite() would return UP.
+     *
+     * @return the opposite of this direction
+     */
     public Direction getOpposite() {
         return switch (this) {
             case UP -> DOWN;

@@ -95,10 +95,10 @@ public class Level {
      * @throws IllegalArgumentException if there's no such level with this number.
      */
     public Level(int lvlNumber) {
-        minimumDiamonds = JSONHandler.getInstance().getMinimumDiamonds(lvlNumber);
-        map = new Tile[JSONHandler.getInstance().getHeight(lvlNumber)]
-                [JSONHandler.getInstance().getLength(lvlNumber)];
-        processMap(JSONHandler.getInstance().getMap(lvlNumber));
+        minimumDiamonds = LevelJSONHandler.getInstance().getMinimumDiamonds(lvlNumber);
+        map = new Tile[LevelJSONHandler.getInstance().getHeight(lvlNumber)]
+                [LevelJSONHandler.getInstance().getLength(lvlNumber)];
+        processMap(LevelJSONHandler.getInstance().getMap(lvlNumber));
         this.state = LevelState.PLAYING;
         this.lvlNumber = lvlNumber;
         makeFall();
