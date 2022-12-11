@@ -26,11 +26,11 @@ public class BoulderDash {
 
     public void createConsoleView() {
         new ConsoleView(this, game);
-   }
+    }
 
-   public Stage createGraphicView() {
+    public Stage createGraphicView() {
         return new MainWindow(this, game);
-   }
+    }
 
     public void start(int lvlNumber) {
         game.start(lvlNumber);
