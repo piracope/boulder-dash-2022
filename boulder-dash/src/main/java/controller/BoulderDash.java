@@ -1,10 +1,11 @@
 package controller;
 
+import javafx.stage.Stage;
 import model.Direction;
 import model.Facade;
 import model.Game;
-import view.View;
 import view.console.ConsoleView;
+import view.javafx.MainWindow;
 
 /**
  * The main controller of the game.
@@ -13,7 +14,6 @@ import view.console.ConsoleView;
  */
 public class BoulderDash {
     private final Facade game;
-    private View view;
 
     // temporary
     public Facade getGame() {
@@ -25,7 +25,11 @@ public class BoulderDash {
     }
 
     public void createConsoleView() {
-        this.view = new ConsoleView(this, game);
+        new ConsoleView(this, game);
+   }
+
+   public Stage createGraphicView() {
+        return new MainWindow(this, game);
    }
 
     public void start(int lvlNumber) {
