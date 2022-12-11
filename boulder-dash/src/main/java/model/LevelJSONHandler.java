@@ -96,4 +96,8 @@ public class LevelJSONHandler {
     public int getHeight(int lvlNumber) {
         return levels[lvlNumber].height;
     }
+
+    public int getNbOfLevels() {
+        return levels.length;
+    }
 }

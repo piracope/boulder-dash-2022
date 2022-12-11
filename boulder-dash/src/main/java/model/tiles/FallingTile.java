@@ -85,11 +85,12 @@ public abstract class FallingTile implements Tile {
 
     /**
      * Makes this tile fall down once in a given direction, if it can.
+     *
      * @param dir the direction of the fall.
      * @return the Tile that was at the place this tile will fall in, or null if the fall is impossible.
      */
     private Tile fallDown(Direction dir) {
-        if(dir != Direction.DOWN && dir != Direction.DOWN_LEFT && dir != Direction.DOWN_RIGHT) {
+        if (dir != Direction.DOWN && dir != Direction.DOWN_LEFT && dir != Direction.DOWN_RIGHT) {
             throw new IllegalArgumentException("Fall cannot be started in this direction");
         }
         Tile diag = level.getTile(position, dir);

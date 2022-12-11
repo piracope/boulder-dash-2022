@@ -21,18 +21,20 @@ public class Game implements Facade {
 
     @Override
     public void start(int level) {
+        nbOfLives = 3;
+        startLevel(level);
+    }
+
+    private void startLevel(int level) {
         history.clear();
         redoHistory.clear();
-        if (isGameOver()) {
-            throw new IllegalStateException("Game is over.");
-        }
         this.level = new Level(level);
         notifyObservers();
     }
 
     @Override
     public boolean isGameOver() {
-        return nbOfLives <= 0;
+        return nbOfLives <= 0 || level.getState() == LevelState.WON;
     }
 
     @Override
@@ -61,6 +63,11 @@ public class Game implements Facade {
     }
 
     @Override
+    public int getNbOfLevels() {
+        return LevelJSONHandler.getInstance().getNbOfLevels();
+    }
+
+    @Override
     public void move(Direction dir) {
         if (isGameOver()) {
             throw new IllegalStateException("Game is over.");
@@ -69,10 +76,13 @@ public class Game implements Facade {
         move.execute();
         history.add(move);
         redoHistory.clear();
+        notifyObservers();
         if (getLevelState() == LevelState.LOST) {
             nbOfLives--;
+            if (!isGameOver()) {
+                startLevel(level.getLvlNumber());
+            }
         }
-        notifyObservers();
     }
 
     @Override

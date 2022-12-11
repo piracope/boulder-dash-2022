@@ -3,22 +3,32 @@ package view.console;
 import controller.BoulderDash;
 import model.Direction;
 import model.Facade;
+import model.LevelState;
+import util.Observer;
 import view.View;
 
 import java.util.EmptyStackException;
 import java.util.Scanner;
 
-public class ConsoleView implements View {
-    private final BoulderDash game;
+public class ConsoleView implements View, Observer {
+    private final BoulderDash controller;
+    private final Facade game;
 
     public ConsoleView(BoulderDash controller, Facade model) {
-        this.game = controller;
-        ConsoleDisplay gameView = new ConsoleDisplay(model);
+        this.controller = controller;
+        this.game = model;
+
+        game.registerObserver(this);
+        this.play();
     }
 
     public void play() {
         Scanner sc = new Scanner(System.in);
-        game.start();
+
+        System.out.println("Choose your level ! [0-" + controller.getNbOfLevels() + ']');
+
+        controller.start(sc.nextInt());
+
         String input;
         do {
             System.out.print("> ");
@@ -28,25 +38,41 @@ public class ConsoleView implements View {
             } catch (IllegalArgumentException e) {
                 System.out.println("Cannot move in this direction!");
             } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println("You won !!!");
-                System.exit(0); // FIXME : this is weird
+                System.out.println("This level does not exist!");
             } catch (EmptyStackException e) {
                 System.out.println("No more moves in history.");
             }
-        } while (game.isPlayOn());
+        } while (!game.isGameOver());
     }
 
     private void processInput(String input) {
         switch (input) {
-            case "right" -> game.move(Direction.RIGHT);
-            case "left" -> game.move(Direction.LEFT);
-            case "up" -> game.move(Direction.UP);
-            case "down" -> game.move(Direction.DOWN);
-            case "undo" -> game.undo();
-            case "redo" -> game.redo();
-            case "abandon" -> game.abandon();
+            case "right" -> controller.move(Direction.RIGHT);
+            case "left" -> controller.move(Direction.LEFT);
+            case "up" -> controller.move(Direction.UP);
+            case "down" -> controller.move(Direction.DOWN);
+            case "undo" -> controller.undo();
+            case "redo" -> controller.redo();
+            case "abandon" -> controller.abandon();
             case "help" -> showHelp();
             default -> System.out.println("No such command.");
+        }
+    }
+
+    @Override
+    public void update() {
+        System.out.println("D: " + game.getDiamondCount()
+                + " | MD : " + game.getMinimumDiamonds()
+                + " | Level : " + game.getLvlNumber()
+                + " | Lives : " + game.getNbOfLives());
+        System.out.println("-----------------------------------");
+        System.out.println(game);
+        switch (game.getLevelState()) {
+            case LOST -> System.out.println("You were crushed....");
+            case WON -> System.out.println("You found the exit !!!");
+        }
+        if (game.isGameOver() && game.getLevelState() == LevelState.LOST) {
+            System.out.println("Game Over...");
         }
     }
 
@@ -86,9 +112,4 @@ public class ConsoleView implements View {
                        the exit, he won the level and the next one is started.
                 """);
     }
-
-    public static void main(String[] args) {
-        BoulderDash bd = new BoulderDash();
-    }
-
 }

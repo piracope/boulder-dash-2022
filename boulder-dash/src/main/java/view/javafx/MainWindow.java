@@ -35,7 +35,7 @@ public class MainWindow extends Stage implements View {
 
     @Override
     public void play() {
-        controller.start();
+        controller.start(0);
         controller.move(Direction.DOWN);
     }
 }
