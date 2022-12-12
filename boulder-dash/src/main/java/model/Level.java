@@ -113,7 +113,8 @@ public class Level {
         Stack<Move> ret = new Stack<>(); // for move history
         Tile destinationTile = getTile(playerPos, dir);
         if (!destinationTile.canMoveIn(dir)) { // check if the player can move in that tile
-            throw new IllegalArgumentException("Cannot move player in this direction");
+            this.state = LevelState.INVALID_MOVE;
+            return null;
         }
         // possiblePush : a pair of Moves, if the destination tile is a boulder that was pushed
         var possiblePush = destinationTile.onMove(dir);
@@ -141,7 +142,7 @@ public class Level {
         }
 
         // the game is lost when the player disappears (he's under a boulder D: )
-        state = LevelState.LOST;
+        state = LevelState.CRUSHED;
     }
 
     public Tile getTile(Position pos, Direction dir) {

@@ -4,13 +4,12 @@ import controller.BoulderDash;
 import model.Direction;
 import model.Facade;
 import model.LevelState;
-import util.Observer;
 import view.View;
 
 import java.util.EmptyStackException;
 import java.util.Scanner;
 
-public class ConsoleView implements View, Observer {
+public class ConsoleView implements View {
     private final BoulderDash controller;
     private final Facade game;
 
@@ -68,10 +67,10 @@ public class ConsoleView implements View, Observer {
         System.out.println("-----------------------------------");
         System.out.println(game);
         switch (game.getLevelState()) {
-            case LOST -> System.out.println("You were crushed....");
+            case CRUSHED -> System.out.println("You were crushed....");
             case WON -> System.out.println("You found the exit !!!");
         }
-        if (game.isGameOver() && game.getLevelState() == LevelState.LOST) {
+        if (game.isGameOver() && game.getLevelState() == LevelState.CRUSHED) {
             System.out.println("Game Over...");
         }
     }

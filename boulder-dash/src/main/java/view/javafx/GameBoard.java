@@ -4,12 +4,13 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import model.Facade;
 import util.Observer;
 
 import java.util.Objects;
 
-public class GameBoard extends GridPane implements Observer {
+public class GameBoard extends VBox implements Observer {
     private final Facade game;
 
     private final int BOARD_LENGTH = 30;
@@ -19,9 +20,14 @@ public class GameBoard extends GridPane implements Observer {
 
     private final Image SPRITE_SHEET = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/sprites.png")));
 
+
+    private final GridPane board = new GridPane();
+
     public GameBoard(Facade game) {
         this.game = game;
         game.registerObserver(this);
+
+        this.getChildren().addAll(board, new MessageBox(game));
     }
 
     @Override
@@ -36,8 +42,7 @@ public class GameBoard extends GridPane implements Observer {
                     tile = 'w';
                 }
 
-                this.add(charToTile(tile), j, i);
-                //this.add(new Text(tile + ""), i, j);
+                this.board.add(charToTile(tile), j, i);
             }
         }
     }

@@ -21,7 +21,7 @@ public class Game implements Facade {
 
     @Override
     public void start(int level) {
-        nbOfLives = 3;
+        nbOfLives = this.level == null ? 3 : nbOfLives;
         startLevel(level);
     }
 
@@ -73,16 +73,16 @@ public class Game implements Facade {
             throw new IllegalStateException("Game is over.");
         }
         Command move = new MoveCommand(level, dir);
-        move.execute();
-        history.add(move);
-        redoHistory.clear();
-        notifyObservers();
-        if (getLevelState() == LevelState.LOST) {
+        try {
+            move.execute();
+            history.add(move);
+            redoHistory.clear();
+        } catch (IllegalArgumentException ignored) {}
+        if (getLevelState() == LevelState.CRUSHED) {
             nbOfLives--;
-            if (!isGameOver()) {
-                startLevel(level.getLvlNumber());
-            }
         }
+        notifyObservers();
+
     }
 
     @Override

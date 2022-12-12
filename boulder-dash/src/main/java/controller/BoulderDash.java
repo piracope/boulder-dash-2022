@@ -15,10 +15,6 @@ import view.javafx.MainWindow;
 public class BoulderDash {
     private final Facade game;
 
-    // temporary
-    public Facade getGame() {
-        return game;
-    }
 
     public BoulderDash() {
         this.game = new Game();

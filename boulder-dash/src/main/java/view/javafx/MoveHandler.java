@@ -15,7 +15,6 @@ public class MoveHandler implements EventHandler<KeyEvent> {
 
     @Override
     public void handle(KeyEvent keyEvent) {
-        System.out.println("Hiiii silly :3");
         Direction dir = null;
         switch (keyEvent.getCode()) {
             case LEFT -> dir = Direction.LEFT;

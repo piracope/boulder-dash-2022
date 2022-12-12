@@ -37,13 +37,15 @@ public class MoveCommand implements Command {
     public void execute() {
         oldDiamondCount = level.getDiamondCount();
         oldPositions = level.move(dir);
+        if(oldPositions == null) {
+            throw new IllegalArgumentException("Invalid move");
+        }
         level.updateState();
 
     }
 
     @Override
     public void undo() {
-        // TODO : implement this
         level.setDiamondCount(oldDiamondCount);
         level.changePlayerPos(dir.getOpposite());
 

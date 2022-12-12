@@ -1,4 +1,6 @@
 package view;
 
-public interface View {
+import util.Observer;
+
+public interface View extends Observer {
 }

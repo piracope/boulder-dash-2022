@@ -21,5 +21,10 @@ public enum LevelState {
      * <p>
      * The player was crushed by a FallingTile.
      */
-    LOST
+    CRUSHED,
+
+    /**
+     * The move that was just done is invalid.
+     */
+    INVALID_MOVE,
 }
