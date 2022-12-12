@@ -21,7 +21,7 @@ public class Game implements Facade {
 
     @Override
     public void start(int level) {
-        nbOfLives = this.level == null ? 3 : nbOfLives;
+        nbOfLives = nbOfLives == 0 ? 3 : nbOfLives;
         startLevel(level);
     }
 
@@ -60,6 +60,11 @@ public class Game implements Facade {
     @Override
     public int getNbOfLives() {
         return nbOfLives;
+    }
+
+    @Override
+    public Position getPlayerPos() {
+        return level.getPlayerPos();
     }
 
     @Override

@@ -16,6 +16,9 @@ public class GameBoard extends VBox implements Observer {
     private final int BOARD_LENGTH = 30;
     private final int BOARD_HEIGHT = 16;
 
+    private int viewportX = 0;
+    private int viewportY = 0;
+
     private final int TILE_SIZE = 16;
 
     private final Image SPRITE_SHEET = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/sprites.png")));
@@ -31,10 +34,12 @@ public class GameBoard extends VBox implements Observer {
     }
 
     @Override
-    public void update() {
+    public void update() { // FIXME : i suspect a massive memory hog
         String[] map = game.toString().split("\n");
-        for (int i = 0; i < BOARD_HEIGHT; i++) {
-            for (int j = 0; j < BOARD_LENGTH; j++) {
+        changeViewPort(map[0].length(), map.length);
+
+        for (int i = viewportY; i < viewportY + BOARD_HEIGHT; i++) {
+            for (int j = viewportX; j < viewportX + BOARD_LENGTH; j++) {
                 char tile;
                 try {
                     tile = map[i].charAt(j);
@@ -42,8 +47,24 @@ public class GameBoard extends VBox implements Observer {
                     tile = 'w';
                 }
 
-                this.board.add(charToTile(tile), j, i);
+                this.board.add(charToTile(tile), j - viewportX, i - viewportY);
             }
+        }
+    }
+
+    private void changeViewPort(int mapL, int mapH) {
+        int x = game.getPlayerPos().getX();
+        int y = game.getPlayerPos().getY();
+
+        if (x + 5 > viewportX + BOARD_LENGTH) {
+            viewportX = Math.min(viewportX + BOARD_LENGTH - 5, mapL - BOARD_LENGTH);
+        } else if (x - 7 < viewportX) {
+            viewportX = Math.max(0, viewportX - BOARD_LENGTH + 7);
+        }
+        if (y + 1>= viewportY + BOARD_HEIGHT) {
+            viewportY = Math.min(y, mapH - BOARD_HEIGHT);
+        } else if (y - 1 < viewportY) {
+            viewportY = Math.max(0, y - BOARD_HEIGHT);
         }
     }
 

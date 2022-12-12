@@ -64,6 +64,12 @@ public interface Facade extends Observable {
     int getNbOfLives();
 
     /**
+     * Returns the current position of the player.
+     * @return the current position of the player
+     */
+    Position getPlayerPos();
+
+    /**
      * Getter for the number of playable levels.
      *
      * @return the number of playable levels

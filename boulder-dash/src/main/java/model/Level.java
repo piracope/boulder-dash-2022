@@ -241,4 +241,8 @@ public class Level {
         }
         return sb.toString();
     }
+
+    public Position getPlayerPos() {
+        return new Position(playerPos);
+    }
 }
