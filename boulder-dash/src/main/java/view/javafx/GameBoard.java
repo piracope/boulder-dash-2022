@@ -33,7 +33,8 @@ public class GameBoard extends VBox implements Observer {
     }
 
     @Override
-    public void update() { // FIXME : i suspect a massive memory hog
+    public void update() {
+        board.getChildren().clear();
         String[] map = game.toString().split("\n");
         changeViewPort(map[0].length(), map.length);
 
