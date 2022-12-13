@@ -23,14 +23,17 @@ public class ConsoleView implements View {
 
     public void play() {
         Scanner sc = new Scanner(System.in);
+        System.out.println("Show help ? (y/n)");
+        if (sc.nextLine().toLowerCase().charAt(0) == 'y') {
+            showHelp();
+        }
 
-        System.out.println("Choose your level ! [0-" + controller.getNbOfLevels() + ']');
-        int lvl = Integer.parseInt(sc.nextLine());
-        controller.start(lvl);
-        System.out.println("Starting...");
+        do {
+            System.out.println("Choose your level ! [0-" + (controller.getNbOfLevels() - 1) + ']');
+            int lvl = Integer.parseInt(sc.nextLine());
+            controller.start(lvl);
 
-        String input;
-        while (!game.isGameOver()) {
+            String input;
             do {
                 System.out.print("> ");
                 input = sc.nextLine().toLowerCase().strip();
@@ -41,16 +44,16 @@ public class ConsoleView implements View {
                 } catch (EmptyStackException e) {
                     System.out.println("No more moves in history.");
                 }
-            } while (!game.isGameOver() && game.getLevelState() != LevelState.CRUSHED);
+                if (game.getLevelState() == LevelState.CRUSHED) {
+                    System.out.println("Wanna retry ? (y/n)");
+                    if (sc.nextLine().toLowerCase().charAt(0) == 'y') {
+                        controller.start(lvl);
+                    }
+                }
+            } while (!game.isGameOver());
 
-            System.out.println("Wanna retry ? (y/n)");
-            if (sc.nextLine().toLowerCase().charAt(0) == 'y') {
-                controller.start(lvl);
-            }
-        }
-
-
-        System.exit(0); // when started with JavaFX
+            System.out.println("Wanna go back to the level selection ? (y/n)");
+        } while (sc.nextLine().toLowerCase().charAt(0) == 'y');
     }
 
     private void processInput(String input) {
@@ -63,7 +66,7 @@ public class ConsoleView implements View {
             case "redo" -> controller.redo();
             case "abandon" -> {
                 controller.abandon();
-                System.out.println("Bye Bye !");
+                System.out.println("Abandoned...");
             }
             case "help" -> showHelp();
             default -> System.out.println("No such command.");
@@ -73,7 +76,7 @@ public class ConsoleView implements View {
     @Override
     public void update() {
         if (game.getLevelState() == LevelState.INVALID_MOVE) {
-            System.out.println("Invalid Move!");
+            System.out.println("Invalid Move!\n");
             return;
         }
 
@@ -83,13 +86,17 @@ public class ConsoleView implements View {
                 + " | Lives : " + game.getNbOfLives());
         System.out.println("-----------------------------------");
         System.out.println(game);
+        System.out.println("-----------------------------------");
         switch (game.getLevelState()) {
             case CRUSHED -> System.out.println("You were crushed....");
             case WON -> System.out.println("You found the exit !!!");
+            case REVEAL -> System.out.println("The exit has opened...");
         }
         if (game.isGameOver() && game.getLevelState() == LevelState.CRUSHED) {
             System.out.println("Game Over...");
         }
+
+        System.out.println();
     }
 
     private void showHelp() {
