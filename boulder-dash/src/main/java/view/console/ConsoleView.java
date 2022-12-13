@@ -4,12 +4,12 @@ import controller.BoulderDash;
 import model.Direction;
 import model.Facade;
 import model.LevelState;
-import view.View;
+import util.Observer;
 
 import java.util.EmptyStackException;
 import java.util.Scanner;
 
-public class ConsoleView implements View {
+public class ConsoleView implements Observer {
     private final BoulderDash controller;
     private final Facade game;
 

@@ -12,9 +12,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Facade;
 import model.LevelState;
-import view.View;
+import util.Observer;
 
-public class MainWindow implements View {
+public class MainWindow implements Observer {
     private final Stage primaryStage;
     private final VBox root = new VBox();
     private final InfoBox info;
