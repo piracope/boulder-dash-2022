@@ -110,6 +110,7 @@ public class Game implements Facade {
     @Override
     public void abandon() {
         nbOfLives = 0;
+        notifyObservers();
     }
 
     @Override

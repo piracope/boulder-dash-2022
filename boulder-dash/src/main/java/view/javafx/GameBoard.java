@@ -13,13 +13,12 @@ import java.util.Objects;
 public class GameBoard extends VBox implements Observer {
     private final Facade game;
 
-    private final int BOARD_LENGTH = 30;
-    private final int BOARD_HEIGHT = 16;
+    private static final int BOARD_LENGTH = 30;
+    private static final int BOARD_HEIGHT = 16;
+    private static final int TILE_SIZE = 16;
 
     private int viewportX = 0;
     private int viewportY = 0;
-
-    private final int TILE_SIZE = 16;
 
     private final Image SPRITE_SHEET = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/sprites.png")));
 
@@ -29,8 +28,14 @@ public class GameBoard extends VBox implements Observer {
     public GameBoard(Facade game) {
         this.game = game;
         game.registerObserver(this);
+        setupBoard();
 
-        this.getChildren().addAll(board, new MessageBox(game));
+    }
+
+    private void setupBoard() {
+        MessageBox mb = new MessageBox(game);
+        this.getChildren().addAll(board, mb);
+        this.setPrefSize(BOARD_LENGTH * TILE_SIZE, BOARD_HEIGHT * TILE_SIZE);
     }
 
     @Override
@@ -47,6 +52,16 @@ public class GameBoard extends VBox implements Observer {
                 } catch (StringIndexOutOfBoundsException | ArrayIndexOutOfBoundsException e) {
                     tile = 'w';
                 }
+                /* // to have the images resize according to the window
+                var sprite = charToTile(tile);
+                Pane pane = new Pane();
+                pane.prefWidthProperty().bind(Bindings.min(this.widthProperty().divide(BOARD_LENGTH), this.heightProperty().divide(BOARD_HEIGHT)));
+                pane.prefHeightProperty().bind(Bindings.min(this.widthProperty().divide(BOARD_LENGTH), this.heightProperty().divide(BOARD_HEIGHT)));
+                pane.getChildren().add(sprite);
+                sprite.fitWidthProperty().bind(pane.widthProperty());
+                this.board.add(pane, j - viewportX, i - viewportY);
+                 */
+
                 this.board.add(charToTile(tile), j - viewportX, i - viewportY);
             }
         }
@@ -104,6 +119,8 @@ public class GameBoard extends VBox implements Observer {
             }
         }
         ret.setViewport(new Rectangle2D(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE));
+        ret.setPreserveRatio(true);
+        ret.setSmooth(false);
         return ret;
     }
 }

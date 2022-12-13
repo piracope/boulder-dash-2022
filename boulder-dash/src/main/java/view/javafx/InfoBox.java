@@ -8,11 +8,11 @@ import util.Observer;
 public class InfoBox extends TilePane implements Observer {
     private final Text levelTxt = new Text("Level");
     private final Text levelNb = new Text("0");
-    private final Text diamondTxt = new Text("Diamonds");
+    private final Text diamondTxt = new Text("D");
     private final Text diamondNb = new Text("0");
-    private final Text minDiamondTxt = new Text("Min. Diamonds");
+    private final Text minDiamondTxt = new Text("MD");
     private final Text minDiamondNb = new Text("0");
-    private final Text livesTxt = new Text("Lives");
+    private final Text livesTxt = new Text("❤️");
     private final Text livesNb = new Text("0");
 
     private final Facade game;

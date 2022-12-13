@@ -27,4 +27,9 @@ public enum LevelState {
      * The move that was just done is invalid.
      */
     INVALID_MOVE,
+
+    /**
+     * The exit was just revealed.
+     */
+    REVEAL,
 }

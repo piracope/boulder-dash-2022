@@ -24,6 +24,8 @@ public class MoveHandler implements EventHandler<KeyEvent> {
             } else if (keyEvent.getCode() == KeyCode.Y) {
                 game.redo();
             }
+        } else if (keyEvent.getCode() == KeyCode.ESCAPE) {
+            game.abandon();
         } else {
             switch (keyEvent.getCode()) {
                 case LEFT -> dir = Direction.LEFT;

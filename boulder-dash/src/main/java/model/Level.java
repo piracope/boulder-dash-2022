@@ -116,6 +116,7 @@ public class Level {
             this.state = LevelState.INVALID_MOVE;
             return null;
         }
+        this.state = LevelState.PLAYING;
         // possiblePush : a pair of Moves, if the destination tile is a boulder that was pushed
         var possiblePush = destinationTile.onMove(dir);
         if (possiblePush != null) {
@@ -127,6 +128,13 @@ public class Level {
         return ret;
     }
 
+    /**
+     * Undoes a move represented by all positions affected.
+     *
+     * @param oldPositions    all the Moves originally present
+     * @param oldDiamondCount the original diamond count
+     * @param moveDir         the direction of the movement to undo
+     */
     public void undoMove(Stack<Move> oldPositions, int oldDiamondCount, Direction moveDir) {
         this.setDiamondCount(oldDiamondCount);
         this.changePlayerPos(moveDir.getOpposite());
@@ -141,7 +149,7 @@ public class Level {
         this.updateState();
     }
 
-    public void updateState() {
+    private void updateState() {
         // The player cannot be on the exit if it hasn't been revealed.
         if (playerPos.equals(exitPos) && diamondCount >= minimumDiamonds) {
             state = LevelState.WON;
@@ -150,7 +158,7 @@ public class Level {
         for (var line : map) {
             for (Tile t : line) {
                 if (t instanceof Player) {
-                    state = LevelState.PLAYING;
+                    state = state == LevelState.REVEAL ? state : LevelState.PLAYING;
                     return;
                 }
             }
@@ -160,10 +168,23 @@ public class Level {
         state = LevelState.CRUSHED;
     }
 
+    /**
+     * Returns the tile at one position removed from a given position in a given direction
+     *
+     * @param pos the starting position
+     * @param dir the direction to move once towards
+     * @return the tile at the end position
+     */
     public Tile getTile(Position pos, Direction dir) {
         return map[pos.getY() + dir.getDy()][pos.getX() + dir.getDx()];
     }
 
+    /**
+     * Returns the tile at a given position
+     *
+     * @param pos the position of the tile
+     * @return the tile at pos
+     */
     public Tile getTile(Position pos) {
         return map[pos.getY()][pos.getX()];
     }
@@ -172,6 +193,13 @@ public class Level {
         map[pos.getY()][pos.getX()] = toSet;
     }
 
+    /**
+     * Moves a tile at a given position once in a given direction.
+     *
+     * @param pos the position of the tile to move
+     * @param dir the direction towards which the tile will be moved
+     * @return the original tiles at the affected position
+     */
     public Stack<Move> moveTile(Position pos, Direction dir) {
         Tile t = getTile(pos);
         // register the pre-move state of the affected tiles
@@ -192,6 +220,11 @@ public class Level {
         return ret;
     }
 
+    /**
+     * Makes all FallingTiles present fall.
+     *
+     * @return the original tiles at the affected positions
+     */
     public Stack<Move> makeFall() {
         Stack<Move> ret = new Stack<>();
         for (int y = map.length - 1; y >= 0; y--) {
@@ -208,17 +241,34 @@ public class Level {
         return ret;
     }
 
+    /**
+     * Increments diamondCount.
+     * <p>
+     * If the minimum amount of diamonds necessary to open the exit is reached, said Exit will be revealed
+     * (the player can now walk on it).
+     */
     public void collectDiamond() {
         diamondCount++;
         if (diamondCount == minimumDiamonds) {
             ((Exit) getTile(exitPos)).reveal();
+            state = LevelState.REVEAL;
         }
     }
 
+    /**
+     * Getter for minimumDiamonds.
+     *
+     * @return minimumDiamonds
+     */
     public int getMinimumDiamonds() {
         return minimumDiamonds;
     }
 
+    /**
+     * Getter for diamondCount.
+     *
+     * @return diamondCount
+     */
     public int getDiamondCount() {
         return diamondCount;
     }
@@ -230,14 +280,24 @@ public class Level {
         this.diamondCount = diamondCount;
     }
 
-    public void changePlayerPos(Direction dir) {
+    private void changePlayerPos(Direction dir) {
         playerPos.move(dir);
     }
 
+    /**
+     * Getter for lvlNumber.
+     *
+     * @return lvlNumber
+     */
     public int getLvlNumber() {
         return lvlNumber;
     }
 
+    /**
+     * Getter for state.
+     *
+     * @return state
+     */
     public LevelState getState() {
         return state;
     }
@@ -254,6 +314,11 @@ public class Level {
         return sb.toString();
     }
 
+    /**
+     * Getter for playerPos.
+     *
+     * @return defensive copy of playerPos
+     */
     public Position getPlayerPos() {
         return new Position(playerPos);
     }

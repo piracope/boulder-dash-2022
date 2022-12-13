@@ -2,6 +2,7 @@ package view.javafx;
 
 import controller.BoulderDash;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
@@ -78,12 +79,14 @@ public class MainWindow implements View {
     private void setupStage() {
         primaryStage.setTitle("Boulder Dash - Projet ATLG3 2022-2023 - 58089 MOUFIDI Ayoub");
 
-        Scene scene = new Scene(root, 640, 380);
+        Scene scene = new Scene(root, board.getPrefWidth(), board.getPrefHeight() + 100);
         primaryStage.setScene(scene);
         board.setFocusTraversable(true);
+        info.setAlignment(Pos.CENTER);
+        board.setAlignment(Pos.CENTER);
+        showLevelSelect();
         primaryStage.show();
 
-        showLevelSelect();
     }
 
     private void showLevelSelect() {
@@ -118,10 +121,10 @@ public class MainWindow implements View {
     @Override
     public void update() {
         if (this.game.isGameOver()) {
-            if (this.game.getLevelState() == LevelState.CRUSHED) {
-                root.addEventFilter(KeyEvent.KEY_PRESSED, goBackToMenu);
-            } else if (this.game.getLevelState() == LevelState.WON) {
+            if (this.game.getLevelState() == LevelState.WON) {
                 root.addEventFilter(KeyEvent.KEY_PRESSED, nextLevel);
+            } else {
+                root.addEventFilter(KeyEvent.KEY_PRESSED, goBackToMenu);
             }
         } else if (this.game.getLevelState() == LevelState.CRUSHED) {
             root.addEventFilter(KeyEvent.KEY_PRESSED, respawn);
