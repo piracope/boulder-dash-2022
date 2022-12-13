@@ -149,7 +149,7 @@ public class Level {
         }
         for (var line : map) {
             for (Tile t : line) {
-                if (t instanceof Player) { // FIXME : instanceof ok ?
+                if (t instanceof Player) {
                     state = LevelState.PLAYING;
                     return;
                 }
@@ -168,8 +168,7 @@ public class Level {
         return map[pos.getY()][pos.getX()];
     }
 
-    // FIXME : encapsulation :))))))
-    public void setTile(Tile toSet, Position pos) {
+    private void setTile(Tile toSet, Position pos) {
         map[pos.getY()][pos.getX()] = toSet;
     }
 
@@ -224,12 +223,13 @@ public class Level {
         return diamondCount;
     }
 
-    public void setDiamondCount(int diamondCount) {
+    private void setDiamondCount(int diamondCount) {
         if (diamondCount > this.diamondCount) {
             throw new IllegalStateException("Suspicious setter usage.");
         }
         this.diamondCount = diamondCount;
     }
+
     public void changePlayerPos(Direction dir) {
         playerPos.move(dir);
     }

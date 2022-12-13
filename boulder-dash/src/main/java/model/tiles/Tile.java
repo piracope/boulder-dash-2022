@@ -1,6 +1,7 @@
 package model.tiles;
 
 import model.Direction;
+import model.Move;
 
 import java.util.Stack;
 
@@ -21,6 +22,16 @@ public interface Tile {
      * @return true if we can fall on this tile.
      */
     boolean canFallOn();
+
+    /**
+     * Checks if a FallingTile can slide on this tile.
+     * <p>
+     * By sliding, we mean that a FallingTile can move horizontally on it, like
+     * during a diagonal fall.
+     *
+     * @return true if we can slide on this tile
+     */
+    boolean canFallThrough();
 
     /**
      * Checks if the player can move in the direction of this tile.

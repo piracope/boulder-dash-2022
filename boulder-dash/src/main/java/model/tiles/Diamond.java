@@ -2,6 +2,7 @@ package model.tiles;
 
 import model.Direction;
 import model.Level;
+import model.Move;
 import model.Position;
 
 import java.util.Stack;
@@ -17,11 +18,6 @@ public class Diamond extends FallingTile {
     @Override
     public String toString() {
         return "d";
-    }
-
-    @Override
-    public boolean canFallOn() {
-        return false;
     }
 
     @Override

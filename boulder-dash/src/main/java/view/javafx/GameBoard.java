@@ -3,7 +3,8 @@ package view.javafx;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import model.Facade;
 import util.Observer;
 
@@ -60,7 +61,7 @@ public class GameBoard extends VBox implements Observer {
         } else if (x - 7 < viewportX) {
             viewportX = Math.max(0, viewportX - BOARD_LENGTH + 7);
         }
-        if (y + 1>= viewportY + BOARD_HEIGHT) {
+        if (y + 1 >= viewportY + BOARD_HEIGHT) {
             viewportY = Math.min(y, mapH - BOARD_HEIGHT);
         } else if (y - 1 < viewportY) {
             viewportY = Math.max(0, y - BOARD_HEIGHT);

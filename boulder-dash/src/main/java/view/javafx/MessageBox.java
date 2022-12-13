@@ -31,9 +31,9 @@ public class MessageBox extends BorderPane implements Observer {
         if (game.getLevelState() == LevelState.WON) {
             textToSet += "\n" +
                     (game.getLvlNumber() + 1 >= game.getNbOfLevels()
-                    ? "Press Enter to go back to the main menu"
-                    : "Press Enter to go to the next level");
-        } else if(game.isGameOver()) {
+                            ? "Press Enter to go back to the main menu"
+                            : "Press Enter to go to the next level");
+        } else if (game.isGameOver()) {
             textToSet += "\nGame Over\nPress Enter to go back to the main menu";
         }
 

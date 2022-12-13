@@ -2,6 +2,7 @@ package model.tiles;
 
 import model.Direction;
 import model.Level;
+import model.Move;
 import model.Position;
 
 import java.util.Stack;
@@ -14,11 +15,6 @@ import java.util.Stack;
 public class Boulder extends FallingTile {
     public Boulder(Level level, Position position) {
         super(level, position);
-    }
-
-    @Override
-    public boolean canFallOn() {
-        return false;
     }
 
     @Override

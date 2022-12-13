@@ -1,6 +1,7 @@
 package model.tiles;
 
 import model.Direction;
+import model.Move;
 
 import java.util.Stack;
 
@@ -17,6 +18,11 @@ public class Soil implements Tile {
 
     @Override
     public boolean canFallOn() {
+        return false;
+    }
+
+    @Override
+    public boolean canFallThrough() {
         return false;
     }
 

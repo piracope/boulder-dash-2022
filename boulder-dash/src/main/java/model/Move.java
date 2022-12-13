@@ -1,6 +1,6 @@
-package model.tiles;
+package model;
 
-import model.Position;
+import model.tiles.Tile;
 
 /**
  * A Move is the original tile at a certain position before a move is initiated.

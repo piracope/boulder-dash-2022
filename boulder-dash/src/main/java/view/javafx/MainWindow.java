@@ -45,7 +45,7 @@ public class MainWindow implements View {
         // handlers
         this.moveHandle = new MoveHandler(game);
         this.respawn = keyEvent -> {
-            if(keyEvent.getCode() == KeyCode.ENTER) {
+            if (keyEvent.getCode() == KeyCode.ENTER) {
                 play(game.getLvlNumber());
             }
 
@@ -53,7 +53,7 @@ public class MainWindow implements View {
         };
 
         this.goBackToMenu = keyEvent -> {
-            if(keyEvent.getCode() == KeyCode.ENTER) {
+            if (keyEvent.getCode() == KeyCode.ENTER) {
                 showLevelSelect();
             }
 
@@ -61,7 +61,7 @@ public class MainWindow implements View {
         };
 
         this.nextLevel = keyEvent -> {
-            if(keyEvent.getCode() == KeyCode.ENTER) {
+            if (keyEvent.getCode() == KeyCode.ENTER) {
                 try {
                     play(game.getLvlNumber() + 1);
                 } catch (ArrayIndexOutOfBoundsException e) {
@@ -117,13 +117,13 @@ public class MainWindow implements View {
 
     @Override
     public void update() {
-        if(this.game.isGameOver()) {
-            if(this.game.getLevelState() == LevelState.CRUSHED) {
+        if (this.game.isGameOver()) {
+            if (this.game.getLevelState() == LevelState.CRUSHED) {
                 root.addEventFilter(KeyEvent.KEY_PRESSED, goBackToMenu);
             } else if (this.game.getLevelState() == LevelState.WON) {
                 root.addEventFilter(KeyEvent.KEY_PRESSED, nextLevel);
             }
-        } else if(this.game.getLevelState() == LevelState.CRUSHED) {
+        } else if (this.game.getLevelState() == LevelState.CRUSHED) {
             root.addEventFilter(KeyEvent.KEY_PRESSED, respawn);
         }
     }

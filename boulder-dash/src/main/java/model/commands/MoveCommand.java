@@ -2,8 +2,7 @@ package model.commands;
 
 import model.Direction;
 import model.Level;
-import model.tiles.FallingTile;
-import model.tiles.Move;
+import model.Move;
 import util.Command;
 
 import java.util.Stack;
@@ -37,7 +36,7 @@ public class MoveCommand implements Command {
     public void execute() {
         oldDiamondCount = level.getDiamondCount();
         oldPositions = level.move(dir);
-        if(oldPositions == null) {
+        if (oldPositions == null) {
             throw new IllegalArgumentException("Invalid move");
         }
 

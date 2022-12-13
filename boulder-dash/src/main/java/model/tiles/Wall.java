@@ -1,6 +1,7 @@
 package model.tiles;
 
 import model.Direction;
+import model.Move;
 
 import java.util.Stack;
 
@@ -10,6 +11,11 @@ import java.util.Stack;
 public class Wall implements Tile {
     @Override
     public boolean canFall() {
+        return false;
+    }
+
+    @Override
+    public boolean canFallThrough() {
         return false;
     }
 

@@ -65,6 +65,7 @@ public interface Facade extends Observable {
 
     /**
      * Returns the current position of the player.
+     *
      * @return the current position of the player
      */
     Position getPlayerPos();

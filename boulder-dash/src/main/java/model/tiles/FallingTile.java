@@ -2,6 +2,7 @@ package model.tiles;
 
 import model.Direction;
 import model.Level;
+import model.Move;
 import model.Position;
 
 import java.util.Stack;
@@ -35,6 +36,16 @@ public abstract class FallingTile implements Tile {
     @Override
     public boolean canFall() {
         return true;
+    }
+
+    @Override
+    public boolean canFallOn() {
+        return false;
+    }
+
+    @Override
+    public boolean canFallThrough() {
+        return false;
     }
 
     /**
@@ -96,8 +107,7 @@ public abstract class FallingTile implements Tile {
         Tile diag = level.getTile(position, dir);
         Tile side = level.getTile(position, dir.getComponents()[1]);
         Tile under = level.getTile(position, Direction.DOWN);
-        // FIXME : can fall on the side through the player - fixed with instanceof -> add canFallThrough
-        if (under.canFallOn() || under.canFall() && (side.canFallOn() && !(side instanceof Player)) && diag.canFallOn()) {
+        if (under.canFallOn() || under.canFall() && side.canFallThrough() && diag.canFallOn()) {
             Tile affectedTile = level.getTile(position, dir);
             level.moveTile(position, dir);
             return affectedTile;

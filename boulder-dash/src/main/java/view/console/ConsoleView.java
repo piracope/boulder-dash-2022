@@ -30,7 +30,7 @@ public class ConsoleView implements View {
         System.out.println("Starting...");
 
         String input;
-        while(!game.isGameOver()) {
+        while (!game.isGameOver()) {
             do {
                 System.out.print("> ");
                 input = sc.nextLine().toLowerCase().strip();
@@ -44,7 +44,7 @@ public class ConsoleView implements View {
             } while (!game.isGameOver() && game.getLevelState() != LevelState.CRUSHED);
 
             System.out.println("Wanna retry ? (y/n)");
-            if(sc.nextLine().toLowerCase().charAt(0) == 'y') {
+            if (sc.nextLine().toLowerCase().charAt(0) == 'y') {
                 controller.start(lvl);
             }
         }
@@ -72,7 +72,7 @@ public class ConsoleView implements View {
 
     @Override
     public void update() {
-        if(game.getLevelState() == LevelState.INVALID_MOVE) {
+        if (game.getLevelState() == LevelState.INVALID_MOVE) {
             System.out.println("Invalid Move!");
             return;
         }

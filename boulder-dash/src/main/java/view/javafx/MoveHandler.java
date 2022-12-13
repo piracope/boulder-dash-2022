@@ -18,15 +18,13 @@ public class MoveHandler implements EventHandler<KeyEvent> {
     public void handle(KeyEvent keyEvent) {
         Direction dir = null;
 
-        if(keyEvent.isControlDown()) {
-            if(keyEvent.getCode() == KeyCode.Z) {
+        if (keyEvent.isControlDown()) {
+            if (keyEvent.getCode() == KeyCode.Z) {
                 game.undo();
             } else if (keyEvent.getCode() == KeyCode.Y) {
                 game.redo();
             }
-        }
-
-        else {
+        } else {
             switch (keyEvent.getCode()) {
                 case LEFT -> dir = Direction.LEFT;
                 case DOWN -> dir = Direction.DOWN;
