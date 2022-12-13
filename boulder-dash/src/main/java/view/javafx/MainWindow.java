@@ -1,6 +1,7 @@
 package view.javafx;
 
 import controller.BoulderDash;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
@@ -12,7 +13,8 @@ import model.Facade;
 import model.LevelState;
 import view.View;
 
-public class MainWindow extends Stage implements View {
+public class MainWindow implements View {
+    private final Stage primaryStage;
     private final VBox root = new VBox();
     private final InfoBox info;
     private final GameBoard board;
@@ -20,25 +22,66 @@ public class MainWindow extends Stage implements View {
     private final BoulderDash controller;
     private final Facade game;
 
+    private final EventHandler<KeyEvent> moveHandle;
+    private final EventHandler<KeyEvent> respawn;
+    private final EventHandler<KeyEvent> goBackToMenu;
+    private final EventHandler<KeyEvent> nextLevel;
+
     // Event Listeners
 
 
-    public MainWindow(BoulderDash controller, Facade game) {
+    public MainWindow(BoulderDash controller, Facade game, Stage stage) {
+        // model
         this.controller = controller;
         this.game = game;
+
+        // view components
+        this.primaryStage = stage;
         this.info = new InfoBox(game);
         this.board = new GameBoard(game);
 
         this.game.registerObserver(this);
 
+        // handlers
+        this.moveHandle = new MoveHandler(game);
+        this.respawn = keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.ENTER) {
+                play(game.getLvlNumber());
+            }
+
+            keyEvent.consume();
+        };
+
+        this.goBackToMenu = keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.ENTER) {
+                showLevelSelect();
+            }
+
+            keyEvent.consume();
+        };
+
+        this.nextLevel = keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.ENTER) {
+                try {
+                    play(game.getLvlNumber() + 1);
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    showLevelSelect();
+                }
+
+                keyEvent.consume();
+            }
+        };
+
         setupStage();
     }
 
     private void setupStage() {
-        this.setTitle("Boulder Dash - Projet ATLG3 2022-2023 - 58089 MOUFIDI Ayoub");
+        primaryStage.setTitle("Boulder Dash - Projet ATLG3 2022-2023 - 58089 MOUFIDI Ayoub");
 
         Scene scene = new Scene(root, 640, 380);
-        this.setScene(scene);
+        primaryStage.setScene(scene);
+        board.setFocusTraversable(true);
+        primaryStage.show();
 
         showLevelSelect();
     }
@@ -61,29 +104,27 @@ public class MainWindow extends Stage implements View {
 
     private void play(int lvlNumber) {
         root.getChildren().set(1, board);
-        controller.start(lvlNumber);
         setListeners();
+        controller.start(lvlNumber);
     }
 
     private void setListeners() {
-        MoveHandler move = new MoveHandler(game);
-        this.setEventHandler(KeyEvent.KEY_PRESSED, move);
+        root.removeEventFilter(KeyEvent.KEY_PRESSED, respawn);
+        root.removeEventFilter(KeyEvent.KEY_PRESSED, goBackToMenu);
+        root.removeEventFilter(KeyEvent.KEY_PRESSED, nextLevel);
+        board.addEventHandler(KeyEvent.KEY_PRESSED, moveHandle);
     }
 
     @Override
     public void update() {
         if(this.game.isGameOver()) {
-            this.setEventHandler(KeyEvent.KEY_PRESSED, e -> {
-                if (e.getCode() == KeyCode.ENTER) {
-                    showLevelSelect();
-                }
-            });
+            if(this.game.getLevelState() == LevelState.CRUSHED) {
+                root.addEventFilter(KeyEvent.KEY_PRESSED, goBackToMenu);
+            } else if (this.game.getLevelState() == LevelState.WON) {
+                root.addEventFilter(KeyEvent.KEY_PRESSED, nextLevel);
+            }
         } else if(this.game.getLevelState() == LevelState.CRUSHED) {
-            this.setEventHandler(KeyEvent.KEY_PRESSED, e -> {
-                if (e.getCode() == KeyCode.ENTER) {
-                    play(this.game.getLvlNumber()); // FIXME : huge spaghetti code
-                }
-            });
+            root.addEventFilter(KeyEvent.KEY_PRESSED, respawn);
         }
     }
 }

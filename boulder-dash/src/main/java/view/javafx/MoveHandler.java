@@ -1,6 +1,7 @@
 package view.javafx;
 
 import javafx.event.EventHandler;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import model.Direction;
 import model.Facade;
@@ -16,15 +17,27 @@ public class MoveHandler implements EventHandler<KeyEvent> {
     @Override
     public void handle(KeyEvent keyEvent) {
         Direction dir = null;
-        switch (keyEvent.getCode()) {
-            case LEFT -> dir = Direction.LEFT;
-            case DOWN -> dir = Direction.DOWN;
-            case UP -> dir = Direction.UP;
-            case RIGHT -> dir = Direction.RIGHT;
+
+        if(keyEvent.isControlDown()) {
+            if(keyEvent.getCode() == KeyCode.Z) {
+                game.undo();
+            } else if (keyEvent.getCode() == KeyCode.Y) {
+                game.redo();
+            }
         }
 
-        if (dir != null) {
-            game.move(dir);
+        else {
+            switch (keyEvent.getCode()) {
+                case LEFT -> dir = Direction.LEFT;
+                case DOWN -> dir = Direction.DOWN;
+                case UP -> dir = Direction.UP;
+                case RIGHT -> dir = Direction.RIGHT;
+            }
+
+            if (dir != null) {
+                game.move(dir);
+            }
         }
+
     }
 }

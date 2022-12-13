@@ -40,23 +40,11 @@ public class MoveCommand implements Command {
         if(oldPositions == null) {
             throw new IllegalArgumentException("Invalid move");
         }
-        level.updateState();
 
     }
 
     @Override
     public void undo() {
-        level.setDiamondCount(oldDiamondCount);
-        level.changePlayerPos(dir.getOpposite());
-
-        while (!oldPositions.isEmpty()) {
-            Move move = oldPositions.pop();
-            level.setTile(move.tile(), move.position());
-            if (move.tile().canFall()) {
-                ((FallingTile) move.tile()).updatePosition(move.position());
-            }
-        }
-
-        level.updateState();
+        level.undoMove(oldPositions, oldDiamondCount, dir);
     }
 }

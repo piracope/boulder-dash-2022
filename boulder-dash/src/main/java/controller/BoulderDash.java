@@ -18,14 +18,12 @@ public class BoulderDash {
 
     public BoulderDash() {
         this.game = new Game();
-    }
-
-    public void createConsoleView() {
         new ConsoleView(this, game);
     }
 
-    public Stage createGraphicView() {
-        return new MainWindow(this, game);
+    public BoulderDash(Stage stage) {
+        this.game = new Game();
+        new MainWindow(this, game, stage);
     }
 
     public void start(int lvlNumber) {

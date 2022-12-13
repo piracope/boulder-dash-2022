@@ -4,6 +4,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import model.Facade;
+import model.LevelState;
 import util.Observer;
 
 public class MessageBox extends BorderPane implements Observer {
@@ -27,7 +28,12 @@ public class MessageBox extends BorderPane implements Observer {
             case INVALID_MOVE -> textToSet = "Invalid Move !";
         }
 
-        if(game.isGameOver()) {
+        if (game.getLevelState() == LevelState.WON) {
+            textToSet += "\n" +
+                    (game.getLvlNumber() + 1 >= game.getNbOfLevels()
+                    ? "Press Enter to go back to the main menu"
+                    : "Press Enter to go to the next level");
+        } else if(game.isGameOver()) {
             textToSet += "\nGame Over\nPress Enter to go back to the main menu";
         }
 

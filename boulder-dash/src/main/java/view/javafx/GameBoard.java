@@ -3,8 +3,7 @@ package view.javafx;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import model.Facade;
 import util.Observer;
 
@@ -46,7 +45,6 @@ public class GameBoard extends VBox implements Observer {
                 } catch (StringIndexOutOfBoundsException | ArrayIndexOutOfBoundsException e) {
                     tile = 'w';
                 }
-
                 this.board.add(charToTile(tile), j - viewportX, i - viewportY);
             }
         }

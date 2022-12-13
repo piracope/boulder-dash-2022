@@ -25,23 +25,32 @@ public class ConsoleView implements View {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("Choose your level ! [0-" + controller.getNbOfLevels() + ']');
-
-        controller.start(sc.nextInt());
+        int lvl = Integer.parseInt(sc.nextLine());
+        controller.start(lvl);
+        System.out.println("Starting...");
 
         String input;
-        do {
-            System.out.print("> ");
-            input = sc.nextLine().toLowerCase().strip();
-            try {
-                processInput(input);
-            } catch (IllegalArgumentException e) {
-                System.out.println("Cannot move in this direction!");
-            } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println("This level does not exist!");
-            } catch (EmptyStackException e) {
-                System.out.println("No more moves in history.");
+        while(!game.isGameOver()) {
+            do {
+                System.out.print("> ");
+                input = sc.nextLine().toLowerCase().strip();
+                try {
+                    processInput(input);
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    System.out.println("This level does not exist!");
+                } catch (EmptyStackException e) {
+                    System.out.println("No more moves in history.");
+                }
+            } while (!game.isGameOver() && game.getLevelState() != LevelState.CRUSHED);
+
+            System.out.println("Wanna retry ? (y/n)");
+            if(sc.nextLine().toLowerCase().charAt(0) == 'y') {
+                controller.start(lvl);
             }
-        } while (!game.isGameOver());
+        }
+
+
+        System.exit(0); // when started with JavaFX
     }
 
     private void processInput(String input) {
@@ -52,7 +61,10 @@ public class ConsoleView implements View {
             case "down" -> controller.move(Direction.DOWN);
             case "undo" -> controller.undo();
             case "redo" -> controller.redo();
-            case "abandon" -> controller.abandon();
+            case "abandon" -> {
+                controller.abandon();
+                System.out.println("Bye Bye !");
+            }
             case "help" -> showHelp();
             default -> System.out.println("No such command.");
         }
@@ -60,6 +72,11 @@ public class ConsoleView implements View {
 
     @Override
     public void update() {
+        if(game.getLevelState() == LevelState.INVALID_MOVE) {
+            System.out.println("Invalid Move!");
+            return;
+        }
+
         System.out.println("D: " + game.getDiamondCount()
                 + " | MD : " + game.getMinimumDiamonds()
                 + " | Level : " + game.getLvlNumber()

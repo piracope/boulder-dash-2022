@@ -74,8 +74,8 @@ public class Game implements Facade {
 
     @Override
     public void move(Direction dir) {
-        if (isGameOver()) {
-            throw new IllegalStateException("Game is over.");
+        if (isGameOver() || getLevelState() == LevelState.CRUSHED) {
+            throw new IllegalStateException("You're not able to move");
         }
         Command move = new MoveCommand(level, dir);
         try {
@@ -100,7 +100,9 @@ public class Game implements Facade {
 
     @Override
     public void redo() {
-        redoHistory.pop().execute();
+        Command toRedo = redoHistory.pop();
+        toRedo.execute();
+        history.add(toRedo);
         notifyObservers();
     }
 

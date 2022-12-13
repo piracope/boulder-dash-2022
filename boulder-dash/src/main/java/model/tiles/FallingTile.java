@@ -96,8 +96,8 @@ public abstract class FallingTile implements Tile {
         Tile diag = level.getTile(position, dir);
         Tile side = level.getTile(position, dir.getComponents()[1]);
         Tile under = level.getTile(position, Direction.DOWN);
-        // FIXME : can fall on the side through the player
-        if (under.canFallOn() || under.canFall() && side.canFallOn() && diag.canFallOn()) {
+        // FIXME : can fall on the side through the player - fixed with instanceof -> add canFallThrough
+        if (under.canFallOn() || under.canFall() && (side.canFallOn() && !(side instanceof Player)) && diag.canFallOn()) {
             Tile affectedTile = level.getTile(position, dir);
             level.moveTile(position, dir);
             return affectedTile;

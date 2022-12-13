@@ -123,7 +123,22 @@ public class Level {
         }
         ret.addAll(moveTile(playerPos, dir)); // then register the player's move
         ret.addAll(makeFall()); // then at last, register the tiles that fell
+        updateState();
         return ret;
+    }
+
+    public void undoMove(Stack<Move> oldPositions, int oldDiamondCount, Direction moveDir) {
+        this.setDiamondCount(oldDiamondCount);
+        this.changePlayerPos(moveDir.getOpposite());
+        while (!oldPositions.isEmpty()) {
+            Move move = oldPositions.pop();
+            this.setTile(move.tile(), move.position());
+            if (move.tile().canFall()) {
+                ((FallingTile) move.tile()).updatePosition(move.position());
+            }
+        }
+
+        this.updateState();
     }
 
     public void updateState() {
@@ -210,14 +225,11 @@ public class Level {
     }
 
     public void setDiamondCount(int diamondCount) {
-        // FIXME : may be a useless setter
         if (diamondCount > this.diamondCount) {
             throw new IllegalStateException("Suspicious setter usage.");
         }
         this.diamondCount = diamondCount;
     }
-
-    // FIXME : another dangerous setter
     public void changePlayerPos(Direction dir) {
         playerPos.move(dir);
     }
