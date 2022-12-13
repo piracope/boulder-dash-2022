@@ -136,17 +136,20 @@ public class Level {
      * @param moveDir         the direction of the movement to undo
      */
     public void undoMove(Stack<Move> oldPositions, int oldDiamondCount, Direction moveDir) {
-        this.setDiamondCount(oldDiamondCount);
-        this.changePlayerPos(moveDir.getOpposite());
+        // FIXME : REVEAL stays on after undo
+
+        this.setDiamondCount(oldDiamondCount); // we put the old diamond count back
+        this.changePlayerPos(moveDir.getOpposite()); // we move the player to his original position
         while (!oldPositions.isEmpty()) {
             Move move = oldPositions.pop();
-            this.setTile(move.tile(), move.position());
+            this.setTile(move.tile(), move.position()); // we put everything back in its place
             if (move.tile().canFall()) {
+                // and we update the tile's pos if necessary
                 ((FallingTile) move.tile()).updatePosition(move.position());
             }
         }
 
-        this.updateState();
+        this.updateState(); // should be unnecessary but hasn't caused me any bothers yet
     }
 
     private void updateState() {
@@ -158,6 +161,7 @@ public class Level {
         for (var line : map) {
             for (Tile t : line) {
                 if (t instanceof Player) {
+                    // prevent the instant rollback of REVEAL -> PLAYING
                     state = state == LevelState.REVEAL ? state : LevelState.PLAYING;
                     return;
                 }

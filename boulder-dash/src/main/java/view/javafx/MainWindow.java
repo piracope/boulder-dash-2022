@@ -2,13 +2,16 @@ package view.javafx;
 
 import controller.BoulderDash;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Facade;
 import model.LevelState;
@@ -23,13 +26,11 @@ public class MainWindow implements Observer {
     private final BoulderDash controller;
     private final Facade game;
 
+    // TODO : possibly move them to another class
     private final EventHandler<KeyEvent> moveHandle;
     private final EventHandler<KeyEvent> respawn;
     private final EventHandler<KeyEvent> goBackToMenu;
     private final EventHandler<KeyEvent> nextLevel;
-
-    // Event Listeners
-
 
     public MainWindow(BoulderDash controller, Facade game, Stage stage) {
         // model
@@ -45,6 +46,8 @@ public class MainWindow implements Observer {
 
         // handlers
         this.moveHandle = new MoveHandler(game);
+
+        // other filters are too small to warrant a whole new class
         this.respawn = keyEvent -> {
             if (keyEvent.getCode() == KeyCode.ENTER) {
                 play(game.getLvlNumber());
@@ -77,13 +80,22 @@ public class MainWindow implements Observer {
     }
 
     private void setupStage() {
-        primaryStage.setTitle("Boulder Dash - Projet ATLG3 2022-2023 - 58089 MOUFIDI Ayoub");
+        // TODO : maybe do something in fullscreen like some others did. and animations. and sound effects. and--
+        // stage setup
+        Scene scene = new Scene(
+                root,
+                board.getPrefWidth(), // make the size of the window the size of the game's viewport
+                board.getPrefHeight() + 100); // adding 100 as an arbitary number
 
-        Scene scene = new Scene(root, board.getPrefWidth(), board.getPrefHeight() + 100);
+        primaryStage.setTitle("Boulder Dash - Projet ATLG3 2022-2023 - 58089 MOUFIDI Ayoub");
         primaryStage.setScene(scene);
-        board.setFocusTraversable(true);
+        primaryStage.setResizable(false);
+        // components setup
+        board.setFocusTraversable(true); // makes the game board aware of KeyEvents
         info.setAlignment(Pos.CENTER);
         board.setAlignment(Pos.CENTER);
+
+        // showing everything
         showLevelSelect();
         primaryStage.show();
 
@@ -91,30 +103,47 @@ public class MainWindow implements Observer {
 
     private void showLevelSelect() {
         root.getChildren().clear();
-        root.getChildren().addAll(info, buildLevelSelection());
+        root.getChildren().add(buildLevelSelection());
     }
 
-    private FlowPane buildLevelSelection() {
+    private BorderPane buildLevelSelection() {
+        // Level Selection Screen creating
+        BorderPane levelSelection = new BorderPane();
+        Text levelSelectTxt = new Text("Choose your starting level");
         FlowPane chooseLevels = new FlowPane();
+
+        // Setting up the layout
+        levelSelection.setTop(levelSelectTxt);
+        levelSelection.setCenter(chooseLevels);
+
+        BorderPane.setAlignment(levelSelectTxt, Pos.CENTER);
+        BorderPane.setMargin(chooseLevels, new Insets(10, 10, 10, 10));
+        chooseLevels.setHgap(5);
+
+        // Populating
         for (int i = 0; i < controller.getNbOfLevels(); i++) {
             Button level = new Button("" + (i + 1));
             level.setOnAction(e -> play(Integer.parseInt(level.getText()) - 1));
             chooseLevels.getChildren().add(level);
         }
 
-        return chooseLevels;
+        return levelSelection;
     }
 
     private void play(int lvlNumber) {
-        root.getChildren().set(1, board);
-        setListeners();
+        root.getChildren().clear();
+        root.getChildren().addAll(info, board);
+        setPlayingListeners(); //
         controller.start(lvlNumber);
     }
 
-    private void setListeners() {
+    private void setPlayingListeners() {
+        // we remove the different game over filters
         root.removeEventFilter(KeyEvent.KEY_PRESSED, respawn);
         root.removeEventFilter(KeyEvent.KEY_PRESSED, goBackToMenu);
         root.removeEventFilter(KeyEvent.KEY_PRESSED, nextLevel);
+
+        // and we just keep the move handler
         board.addEventHandler(KeyEvent.KEY_PRESSED, moveHandle);
     }
 
@@ -122,11 +151,14 @@ public class MainWindow implements Observer {
     public void update() {
         if (this.game.isGameOver()) {
             if (this.game.getLevelState() == LevelState.WON) {
+                // if game is won -> next level
                 root.addEventFilter(KeyEvent.KEY_PRESSED, nextLevel);
             } else {
+                // if game over -> back to menu :(
                 root.addEventFilter(KeyEvent.KEY_PRESSED, goBackToMenu);
             }
         } else if (this.game.getLevelState() == LevelState.CRUSHED) {
+            // if crushed but NOT game over -> respawn
             root.addEventFilter(KeyEvent.KEY_PRESSED, respawn);
         }
     }

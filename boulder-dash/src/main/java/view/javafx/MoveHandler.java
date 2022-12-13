@@ -19,15 +19,16 @@ public class MoveHandler implements EventHandler<KeyEvent> {
         Direction dir = null;
 
         if (keyEvent.isControlDown()) {
-            if (keyEvent.getCode() == KeyCode.Z) {
+            if (keyEvent.getCode() == KeyCode.Z) { // CTRL + Z -> undo
                 game.undo();
-            } else if (keyEvent.getCode() == KeyCode.Y) {
+            } else if (keyEvent.getCode() == KeyCode.Y) { // CTRL + Y -> undo
                 game.redo();
             }
-        } else if (keyEvent.getCode() == KeyCode.ESCAPE) {
+            // FIXME : uncaught EmptyStackException. Should i handle it ? not asked for in the "énoncé"
+        } else if (keyEvent.getCode() == KeyCode.ESCAPE) { // Esc -> abandon
             game.abandon();
         } else {
-            switch (keyEvent.getCode()) {
+            switch (keyEvent.getCode()) { // arrow keys -> move
                 case LEFT -> dir = Direction.LEFT;
                 case DOWN -> dir = Direction.DOWN;
                 case UP -> dir = Direction.UP;

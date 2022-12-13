@@ -22,8 +22,15 @@ public class MessageBox extends BorderPane implements Observer {
     @Override
     public void update() {
         String textToSet = "";
+
         switch (game.getLevelState()) {
-            case WON -> textToSet = "You Won !";
+            case WON -> {
+                textToSet = "You Won !";
+                textToSet += "\n" +
+                        (game.getLvlNumber() + 1 >= game.getNbOfLevels()
+                                ? "Press Enter to go back to the main menu" // if there are no more levels to play
+                                : "Press Enter to go to the next level");
+            }
             case CRUSHED -> {
                 textToSet = "You were crushed...";
                 if (!game.isGameOver()) {
@@ -34,12 +41,7 @@ public class MessageBox extends BorderPane implements Observer {
             case REVEAL -> textToSet = "The exit just opened...";
         }
 
-        if (game.getLevelState() == LevelState.WON) {
-            textToSet += "\n" +
-                    (game.getLvlNumber() + 1 >= game.getNbOfLevels()
-                            ? "Press Enter to go back to the main menu"
-                            : "Press Enter to go to the next level");
-        } else if (game.isGameOver()) {
+        if (game.isGameOver() && game.getLevelState() != LevelState.WON) {
             textToSet += "\nGame Over\nPress Enter to go back to the main menu";
         }
 

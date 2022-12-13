@@ -11,30 +11,30 @@ import util.Observer;
 import java.util.Objects;
 
 public class GameBoard extends VBox implements Observer {
+    // model
     private final Facade game;
 
+    // various constants
     private static final int BOARD_LENGTH = 30;
     private static final int BOARD_HEIGHT = 16;
     private static final int TILE_SIZE = 16;
+    private final Image SPRITE_SHEET = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/sprites.png")));
 
+    // current upper left corner of the viewport rectangle
     private int viewportX = 0;
     private int viewportY = 0;
 
-    private final Image SPRITE_SHEET = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/sprites.png")));
-
-
+    // layout
     private final GridPane board = new GridPane();
 
     public GameBoard(Facade game) {
         this.game = game;
         game.registerObserver(this);
-        setupBoard();
-
+        setupScreen();
     }
 
-    private void setupBoard() {
-        MessageBox mb = new MessageBox(game);
-        this.getChildren().addAll(board, mb);
+    private void setupScreen() {
+        this.getChildren().addAll(board, new MessageBox(game));
         this.setPrefSize(BOARD_LENGTH * TILE_SIZE, BOARD_HEIGHT * TILE_SIZE);
     }
 
@@ -52,7 +52,7 @@ public class GameBoard extends VBox implements Observer {
                 } catch (StringIndexOutOfBoundsException | ArrayIndexOutOfBoundsException e) {
                     tile = 'w'; // if board is smaller than the screen, we display walls
                 }
-                /*
+                /* // TODO : ask the teacher if we should be able to do this or if it's better to scrap the idea
                 // to have the images resize according to the window
                 var sprite = charToTile(tile);
                 Pane pane = new Pane();
@@ -128,6 +128,9 @@ public class GameBoard extends VBox implements Observer {
             }
         }
         ret.setViewport(new Rectangle2D(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE));
+
+        // those two next one are cool if the images need to be resized on window resize
+        // it looked pretty bad when I tried though, but eh won't hurt to keep them
         ret.setPreserveRatio(true);
         ret.setSmooth(false);
         return ret;
