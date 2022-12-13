@@ -22,6 +22,7 @@ public class ConsoleView implements Observer {
     }
 
     public void play() {
+        // Showing help
         Scanner sc = new Scanner(System.in);
         System.out.println("Show help ? (y/n)");
         if (sc.nextLine().toLowerCase().charAt(0) == 'y') {
@@ -29,18 +30,18 @@ public class ConsoleView implements Observer {
         }
 
         do {
-            System.out.println("Choose your level ! [0-" + (controller.getNbOfLevels() - 1) + ']');
-            int lvl = Integer.parseInt(sc.nextLine());
+            // Level Selection
+            int lvl = askForLevel("Choose your level ! [0-" + (controller.getNbOfLevels() - 1) + ']');
             controller.start(lvl);
 
             String input;
             do {
+                // Actually playing
+
                 System.out.print("> ");
                 input = sc.nextLine().toLowerCase().strip();
                 try {
                     processInput(input);
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    System.out.println("This level does not exist!");
                 } catch (EmptyStackException e) {
                     System.out.println("No more moves in history.");
                 }
@@ -54,6 +55,23 @@ public class ConsoleView implements Observer {
 
             System.out.println("Wanna go back to the level selection ? (y/n)");
         } while (sc.nextLine().toLowerCase().charAt(0) == 'y');
+    }
+
+    private int askForLevel(String message) {
+        Scanner sc = new Scanner(System.in);
+        int lvl = -1;
+        while (lvl < 0 || lvl > controller.getNbOfLevels()) {
+            System.out.println(message);
+            while (!sc.hasNextInt()) {
+                System.out.println("Not a valid number");
+                System.out.println(message);
+                sc.next();
+            }
+
+            lvl = Integer.parseInt(sc.next());
+        }
+
+        return lvl;
     }
 
     private void processInput(String input) {
@@ -80,6 +98,7 @@ public class ConsoleView implements Observer {
             return;
         }
 
+        // Displaying the board
         System.out.println("D: " + game.getDiamondCount()
                 + " | MD : " + game.getMinimumDiamonds()
                 + " | Level : " + game.getLvlNumber()
@@ -87,11 +106,16 @@ public class ConsoleView implements Observer {
         System.out.println("-----------------------------------");
         System.out.println(game);
         System.out.println("-----------------------------------");
+
+        // The messages
         switch (game.getLevelState()) {
             case CRUSHED -> System.out.println("You were crushed....");
             case WON -> System.out.println("You found the exit !!!");
             case REVEAL -> System.out.println("The exit has opened...");
         }
+
+        // Game Over can be both WIN or complete loss, so we need to know if the player's crushed
+        // You can't win when crushed
         if (game.isGameOver() && game.getLevelState() == LevelState.CRUSHED) {
             System.out.println("Game Over...");
         }
