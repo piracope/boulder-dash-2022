@@ -89,7 +89,7 @@ public class Game implements Facade {
             move.execute();
             history.add(move);
             redoHistory.clear();
-        } catch (IllegalArgumentException ignored) {
+        } catch (IllegalArgumentException ignored) { // FIXME : this is disgusting
         }
         if (getLevelState() == LevelState.CRUSHED) {
             nbOfLives--;

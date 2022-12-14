@@ -31,6 +31,9 @@ public class MoveCommand implements Command {
      * @param dir   the direction of the move
      */
     public MoveCommand(Level level, Direction dir) {
+        if (level == null) {
+            throw new NullPointerException("Cannot move on null level");
+        }
         this.level = level;
         this.dir = dir;
     }

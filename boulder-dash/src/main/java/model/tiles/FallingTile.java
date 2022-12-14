@@ -29,6 +29,9 @@ public abstract class FallingTile implements Tile {
      * @param position the position of this FallingTile on the level
      */
     public FallingTile(Level level, Position position) {
+        if (level == null || position == null) {
+            throw new NullPointerException("Arguments can't be null.");
+        }
         this.level = level;
         this.position = position;
     }
@@ -68,10 +71,12 @@ public abstract class FallingTile implements Tile {
      */
     public Stack<Move> fall() {
         Stack<Move> ret = new Stack<>();
-        Position oldPos = new Position(position);
-        Tile affected = fallReal(null);
-        if (affected != null) {
-            ret.add(new Move(this, oldPos));
+        Position oldPos = new Position(position); // we get the original position
+        Tile affected = fallReal(null); // we get the tile we eventually fall on
+        if (affected != null) { // if there was a fall
+            ret.add(new Move(this, oldPos)); // this FallingTile was at the oldPos
+
+            // the affected tile is at the position this tile is at now
             ret.add(new Move(affected, new Position(position)));
         }
         return ret;
@@ -87,7 +92,7 @@ public abstract class FallingTile implements Tile {
     private Tile fallReal(Tile toRet) {
         for (Direction dir : new Direction[]{Direction.DOWN, Direction.DOWN_LEFT, Direction.DOWN_RIGHT}) {
             Tile affectedTile = fallDown(dir);
-            if (affectedTile != null) {
+            if (affectedTile != null) { // while we can fall
                 return fallReal(affectedTile);
             }
         }

@@ -2,6 +2,7 @@ package model;
 
 import model.tiles.*;
 
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -13,27 +14,23 @@ import java.util.Stack;
  * The level is won when that exit is reached.
  */
 public class Level {
-    /* Positions */
     private final Tile[][] map;
-    /* Diamonds */
     private final int minimumDiamonds;
     private final int lvlNumber;
     private Position playerPos;
     private Position exitPos;
     private int diamondCount = 0;
-    /* Infos */
     private LevelState state;
 
     /**
      * Creates a given level.
      * <p>
-     * This constructor reads all levels from the LEVELS_PATH file. It then takes the desired level and fill
-     * in all the necessary values.
+     * This constructor gets all information relative to the level from the LevelJSONHandler class.
      * <p>
-     * The level numbers are counted from 0.
+     * The state is set to PLAYING and a fall is initiated at the level's start
      *
-     * @param lvlNumber the desired level
-     * @throws RuntimeException         if the LEVELS_PATH file isn't found
+     * @param lvlNumber the desired level, starting form 0.
+     * @throws RuntimeException         if the file holding the levels isn't found
      * @throws IllegalArgumentException if there's no such level with this number.
      */
     public Level(int lvlNumber) {
@@ -46,7 +43,13 @@ public class Level {
         makeFall();
     }
 
-    /* Utility */
+    /**
+     * Processes the string representation of the map and converts it ta a Tile[][]
+     * <p>
+     * N.B. : this method, and this whole class, assumes that the info received from LevelJSONHandler are CORRECT.
+     *
+     * @param mapStr the string representation of the level's map
+     */
     private void processMap(String mapStr) {
         mapStr = mapStr.toLowerCase();
         int line = 0;
@@ -103,11 +106,17 @@ public class Level {
     }
 
     /**
-     * Moves the player in a certain direction.
+     * Initiates a move of the player towards a given direction.
+     * <p>
+     * The direction of the move has to be a straight direction.
      *
-     * @param dir the direction towards which the player will move.
+     * @param dir the direction towards which the player will move
+     * @return the original positions of all tiles affected by this move
      */
     public Stack<Move> move(Direction dir) {
+        if (!List.of(Direction.DOWN, Direction.UP, Direction.LEFT, Direction.RIGHT).contains(dir)) {
+            throw new IllegalArgumentException("Illegal direction of movement");
+        }
         Stack<Move> ret = new Stack<>(); // for move history
         Tile destinationTile = getTile(playerPos, dir);
         if (!destinationTile.canMoveIn(dir)) { // check if the player can move in that tile
@@ -218,7 +227,7 @@ public class Level {
         map[pos.getY() + dir.getDy()][pos.getX() + dir.getDx()] = t;
         map[pos.getY()][pos.getX()] = new EmptyTile(); // a tile we leave is always an empty tile
         if (t.canFall()) {
-            ((FallingTile) t).updatePosition(dir);
+            ((FallingTile) t).updatePosition(dir); // if the moved tile was a FallingTile, keep track of its position
         }
         if (pos.equals(playerPos)) {
             playerPos.move(dir);
@@ -229,6 +238,8 @@ public class Level {
 
     /**
      * Makes all FallingTiles present fall.
+     * <p>
+     * A FallingTile just above the player will not fall as the player most likely just moved under it.
      *
      * @return the original tiles at the affected positions
      */

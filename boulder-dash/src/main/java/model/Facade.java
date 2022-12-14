@@ -107,7 +107,7 @@ public interface Facade extends Observable {
     void redo();
 
     /**
-     * Abandon the game.
+     * Abandon the game (forced game over).
      */
     void abandon();
 }

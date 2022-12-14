@@ -24,10 +24,20 @@ public enum Direction {
         this.dy = dy;
     }
 
+    /**
+     * Getter of dx
+     *
+     * @return dx
+     */
     public int getDx() {
         return dx;
     }
 
+    /**
+     * Getter of dy
+     *
+     * @return dy
+     */
     public int getDy() {
         return dy;
     }

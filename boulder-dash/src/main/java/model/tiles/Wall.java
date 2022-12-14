@@ -6,7 +6,9 @@ import model.Move;
 import java.util.Stack;
 
 /**
- * A Wall is a stationary Tile. It doesn't move and nothing can pass through it.
+ * A Wall is a stationary Tile.
+ * <p>
+ * We can't move in it, fall on it, fall through it etc.
  */
 public class Wall implements Tile {
     @Override

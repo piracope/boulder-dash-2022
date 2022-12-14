@@ -7,6 +7,10 @@ import java.util.Stack;
 
 /**
  * An EmptyTile is a Tile with nothing in it.
+ * <p>
+ * As such, we can move on it as well as falling through and on it.
+ * <p>
+ * When a tile is displaced, an EmptyTile takes its place at its original position.
  */
 public class EmptyTile implements Tile {
     @Override

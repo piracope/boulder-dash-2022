@@ -7,6 +7,13 @@ import java.util.Stack;
 
 /**
  * The Player tile is the tile where the player is currently at.
+ * <p>
+ * There is only one Player per level.
+ * <p>
+ * We cannot move through it (meaning that a FallingTile won't go through the player during a diagonal fall),
+ * but we can fall on the player, which would mean the end of the game.
+ * <p>
+ * If we try to move in another player, that "one player per level" rule must have been broken.
  */
 public class Player implements Tile {
     @Override

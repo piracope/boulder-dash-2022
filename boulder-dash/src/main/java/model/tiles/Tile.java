@@ -27,7 +27,7 @@ public interface Tile {
      * Checks if a FallingTile can slide on this tile.
      * <p>
      * By sliding, we mean that a FallingTile can move horizontally on it, like
-     * during a diagonal fall.
+     * during a diagonal fall or a push.
      *
      * @return true if we can slide on this tile
      */
