@@ -24,7 +24,6 @@ public class MoveHandler implements EventHandler<KeyEvent> {
             } else if (keyEvent.getCode() == KeyCode.Y) { // CTRL + Y -> undo
                 game.redo();
             }
-            // FIXME : uncaught EmptyStackException. Should i handle it ? not asked for in the "énoncé"
         } else if (keyEvent.getCode() == KeyCode.ESCAPE) { // Esc -> abandon
             game.abandon();
         } else {

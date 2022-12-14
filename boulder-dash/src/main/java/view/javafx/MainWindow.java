@@ -26,7 +26,6 @@ public class MainWindow implements Observer {
     private final BoulderDash controller;
     private final Facade game;
 
-    // TODO : possibly move them to another class
     private final EventHandler<KeyEvent> moveHandle;
     private final EventHandler<KeyEvent> respawn;
     private final EventHandler<KeyEvent> goBackToMenu;
@@ -80,7 +79,6 @@ public class MainWindow implements Observer {
     }
 
     private void setupStage() {
-        // TODO : maybe do something in fullscreen like some others did. and animations. and sound effects. and--
         // stage setup
         Scene scene = new Scene(
                 root,
@@ -150,6 +148,7 @@ public class MainWindow implements Observer {
     @Override
     public void update() {
         if (this.game.isGameOver()) {
+            board.removeEventHandler(KeyEvent.KEY_PRESSED, moveHandle);
             if (this.game.getLevelState() == LevelState.WON) {
                 // if game is won -> next level
                 root.addEventFilter(KeyEvent.KEY_PRESSED, nextLevel);
@@ -159,6 +158,7 @@ public class MainWindow implements Observer {
             }
         } else if (this.game.getLevelState() == LevelState.CRUSHED) {
             // if crushed but NOT game over -> respawn
+            board.removeEventHandler(KeyEvent.KEY_PRESSED, moveHandle);
             root.addEventFilter(KeyEvent.KEY_PRESSED, respawn);
         }
     }

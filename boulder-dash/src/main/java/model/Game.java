@@ -13,7 +13,9 @@ import java.util.Stack;
  */
 public class Game implements Facade {
     private Level level;
-    private int nbOfLives = 3;
+    private static final int STARTING_LIVES = 3;
+    private int nbOfLives = STARTING_LIVES;
+
     private final List<Observer> observers = new ArrayList<>();
 
     private final Stack<Command> history = new Stack<>();
@@ -21,7 +23,14 @@ public class Game implements Facade {
 
     @Override
     public void start(int level) {
-        nbOfLives = nbOfLives == 0 ? 3 : nbOfLives;
+        /*
+        if we start a level with no lives left -> restart => 3 lives
+        if no level loaded yet -> start => 3 lives
+        if level we're loading is different from the current level -> new level => 3 lives
+         */
+        if(nbOfLives == 0 || this.level == null || level != this.level.getLvlNumber()) {
+            nbOfLives = STARTING_LIVES;
+        }
         startLevel(level);
     }
 

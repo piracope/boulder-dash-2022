@@ -52,18 +52,6 @@ public class GameBoard extends VBox implements Observer {
                 } catch (StringIndexOutOfBoundsException | ArrayIndexOutOfBoundsException e) {
                     tile = 'w'; // if board is smaller than the screen, we display walls
                 }
-                /* // TODO : ask the teacher if we should be able to do this or if it's better to scrap the idea
-                // to have the images resize according to the window
-                var sprite = charToTile(tile);
-                Pane pane = new Pane();
-                pane.prefWidthProperty().bind(Bindings.min(this.widthProperty().divide(BOARD_LENGTH),
-                        this.heightProperty().divide(BOARD_HEIGHT)));
-                pane.prefHeightProperty().bind(Bindings.min(this.widthProperty().divide(BOARD_LENGTH),
-                        this.heightProperty().divide(BOARD_HEIGHT)));
-                pane.getChildren().add(sprite);
-                sprite.fitWidthProperty().bind(pane.widthProperty());
-                this.board.add(pane, j - viewportX, i - viewportY);
-                */
                 this.board.add(charToTile(tile), j - viewportX, i - viewportY);
             }
         }
@@ -91,7 +79,19 @@ public class GameBoard extends VBox implements Observer {
         }
     }
 
-    // TODO : change this to looping through the map and using the Objects directly
+    /*
+    This uses the string representation of the model, originally meant for the ConsoleView.
+    This creates coupling between the two views and is very prone to errors, as a typo would
+    dramatically change the graphical output.
+
+    That said, doing it by looking at the Tile's type themselves would mean 1. opening the map
+    to a view and 2. comparing with classes defined in the model, which would break the Façade
+    design pattern.
+
+    This version is undesirable, but there's no time to change it.
+
+    And I got green-lit by Mr. Nicodème.
+     */
     private ImageView charToTile(char c) {
         ImageView ret = new ImageView(SPRITE_SHEET);
         int x;

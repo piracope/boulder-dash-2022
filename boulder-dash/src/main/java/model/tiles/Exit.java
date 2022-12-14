@@ -40,6 +40,10 @@ public class Exit implements Tile {
         isRevealed = true;
     }
 
+    public void unReveal() {
+        isRevealed = false;
+    }
+
     @Override
     public String toString() {
         return "P";

@@ -134,12 +134,17 @@ public class Level {
      * @param oldPositions    all the Moves originally present
      * @param oldDiamondCount the original diamond count
      * @param moveDir         the direction of the movement to undo
+     * @param oldState        the original state of play
      */
-    public void undoMove(Stack<Move> oldPositions, int oldDiamondCount, Direction moveDir) {
+    public void undoMove(Stack<Move> oldPositions, int oldDiamondCount, Direction moveDir, LevelState oldState) {
         // FIXME : REVEAL stays on after undo
 
         this.setDiamondCount(oldDiamondCount); // we put the old diamond count back
         this.changePlayerPos(moveDir.getOpposite()); // we move the player to his original position
+        if(oldDiamondCount < minimumDiamonds) {
+            ((Exit) getTile(exitPos)).unReveal();
+        }
+        this.state = oldState;
         while (!oldPositions.isEmpty()) {
             Move move = oldPositions.pop();
             this.setTile(move.tile(), move.position()); // we put everything back in its place
@@ -215,7 +220,7 @@ public class Level {
         map[pos.getY() + dir.getDy()][pos.getX() + dir.getDx()] = t;
         map[pos.getY()][pos.getX()] = new EmptyTile(); // a tile we leave is always an empty tile
         if (t.canFall()) {
-            ((FallingTile) t).updatePosition(dir); // FIXME : should it be level that handles the position ?
+            ((FallingTile) t).updatePosition(dir);
         }
         if (pos.equals(playerPos)) {
             playerPos.move(dir);

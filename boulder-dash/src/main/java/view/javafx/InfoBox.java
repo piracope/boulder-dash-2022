@@ -5,18 +5,14 @@ import javafx.scene.text.Text;
 import model.Facade;
 import util.Observer;
 
-/* TODO : this info box kinda sucks
-*   like, some people did some really cool things, like having a cool UI that was
-*   identical to the 1984 game so this kinda pales in comparison
-*/
 public class InfoBox extends TilePane implements Observer {
     private final Text levelTxt = new Text("Level");
     private final Text levelNb = new Text("0");
-    private final Text diamondTxt = new Text("D");
+    private final Text diamondTxt = new Text("Diamonds");
     private final Text diamondNb = new Text("0");
-    private final Text minDiamondTxt = new Text("MD");
+    private final Text minDiamondTxt = new Text("Min.\nDiamonds");
     private final Text minDiamondNb = new Text("0");
-    private final Text livesTxt = new Text("❤️");
+    private final Text livesTxt = new Text("Lives");
     private final Text livesNb = new Text("0");
 
     private final Facade game;

@@ -2,6 +2,7 @@ package model.commands;
 
 import model.Direction;
 import model.Level;
+import model.LevelState;
 import model.Move;
 import util.Command;
 
@@ -20,6 +21,8 @@ public class MoveCommand implements Command {
 
     private Stack<Move> oldPositions;
 
+    private LevelState oldState;
+
 
     /**
      * Creates a new MoveCommand.
@@ -35,6 +38,7 @@ public class MoveCommand implements Command {
     @Override
     public void execute() {
         oldDiamondCount = level.getDiamondCount();
+        oldState = level.getState();
         oldPositions = level.move(dir);
         if (oldPositions == null) {
             throw new IllegalArgumentException("Invalid move");
@@ -44,6 +48,6 @@ public class MoveCommand implements Command {
 
     @Override
     public void undo() {
-        level.undoMove(oldPositions, oldDiamondCount, dir);
+        level.undoMove(oldPositions, oldDiamondCount, dir, oldState);
     }
 }
