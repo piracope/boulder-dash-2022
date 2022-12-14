@@ -13,18 +13,9 @@ import java.util.Objects;
  * This class, upon creation, will read and store all levels in memory, ready to be accessed.
  */
 public class LevelJSONHandler {
-    private static LevelJSONHandler instance = null;
     private static final String LEVELS_PATH = "/levels.json";
-
+    private static LevelJSONHandler instance = null;
     private LevelJSON[] levels;
-
-    private static class LevelJSON {
-        public String map;
-        public int minimumDiamonds;
-        public int length;
-        public int height;
-
-    }
 
     private LevelJSONHandler() {
         if (instance == null) {
@@ -99,5 +90,13 @@ public class LevelJSONHandler {
 
     public int getNbOfLevels() {
         return levels.length;
+    }
+
+    private static class LevelJSON {
+        public String map;
+        public int minimumDiamonds;
+        public int length;
+        public int height;
+
     }
 }

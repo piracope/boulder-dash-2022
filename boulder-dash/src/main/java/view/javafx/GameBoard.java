@@ -11,21 +11,18 @@ import util.Observer;
 import java.util.Objects;
 
 public class GameBoard extends VBox implements Observer {
-    // model
-    private final Facade game;
-
     // various constants
     private static final int BOARD_LENGTH = 30;
     private static final int BOARD_HEIGHT = 16;
     private static final int TILE_SIZE = 16;
+    // model
+    private final Facade game;
     private final Image SPRITE_SHEET = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/sprites.png")));
-
+    // layout
+    private final GridPane board = new GridPane();
     // current upper left corner of the viewport rectangle
     private int viewportX = 0;
     private int viewportY = 0;
-
-    // layout
-    private final GridPane board = new GridPane();
 
     public GameBoard(Facade game) {
         this.game = game;

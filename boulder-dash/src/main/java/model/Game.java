@@ -12,14 +12,12 @@ import java.util.Stack;
  * A concrete implementation of Facade.
  */
 public class Game implements Facade {
-    private Level level;
     private static final int STARTING_LIVES = 3;
-    private int nbOfLives = STARTING_LIVES;
-
     private final List<Observer> observers = new ArrayList<>();
-
     private final Stack<Command> history = new Stack<>();
     private final Stack<Command> redoHistory = new Stack<>();
+    private Level level;
+    private int nbOfLives = STARTING_LIVES;
 
     @Override
     public void start(int level) {
@@ -28,7 +26,7 @@ public class Game implements Facade {
         if no level loaded yet -> start => 3 lives
         if level we're loading is different from the current level -> new level => 3 lives
          */
-        if(nbOfLives == 0 || this.level == null || level != this.level.getLvlNumber()) {
+        if (nbOfLives == 0 || this.level == null || level != this.level.getLvlNumber()) {
             nbOfLives = STARTING_LIVES;
         }
         startLevel(level);

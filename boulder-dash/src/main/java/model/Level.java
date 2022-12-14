@@ -15,16 +15,36 @@ import java.util.Stack;
 public class Level {
     /* Positions */
     private final Tile[][] map;
-    private Position playerPos;
-    private Position exitPos;
-
     /* Diamonds */
     private final int minimumDiamonds;
+    private final int lvlNumber;
+    private Position playerPos;
+    private Position exitPos;
     private int diamondCount = 0;
-
     /* Infos */
     private LevelState state;
-    private final int lvlNumber;
+
+    /**
+     * Creates a given level.
+     * <p>
+     * This constructor reads all levels from the LEVELS_PATH file. It then takes the desired level and fill
+     * in all the necessary values.
+     * <p>
+     * The level numbers are counted from 0.
+     *
+     * @param lvlNumber the desired level
+     * @throws RuntimeException         if the LEVELS_PATH file isn't found
+     * @throws IllegalArgumentException if there's no such level with this number.
+     */
+    public Level(int lvlNumber) {
+        minimumDiamonds = LevelJSONHandler.getInstance().getMinimumDiamonds(lvlNumber);
+        map = new Tile[LevelJSONHandler.getInstance().getHeight(lvlNumber)]
+                [LevelJSONHandler.getInstance().getLength(lvlNumber)];
+        processMap(LevelJSONHandler.getInstance().getMap(lvlNumber));
+        this.state = LevelState.PLAYING;
+        this.lvlNumber = lvlNumber;
+        makeFall();
+    }
 
     /* Utility */
     private void processMap(String mapStr) {
@@ -83,28 +103,6 @@ public class Level {
     }
 
     /**
-     * Creates a given level.
-     * <p>
-     * This constructor reads all levels from the LEVELS_PATH file. It then takes the desired level and fill
-     * in all the necessary values.
-     * <p>
-     * The level numbers are counted from 0.
-     *
-     * @param lvlNumber the desired level
-     * @throws RuntimeException         if the LEVELS_PATH file isn't found
-     * @throws IllegalArgumentException if there's no such level with this number.
-     */
-    public Level(int lvlNumber) {
-        minimumDiamonds = LevelJSONHandler.getInstance().getMinimumDiamonds(lvlNumber);
-        map = new Tile[LevelJSONHandler.getInstance().getHeight(lvlNumber)]
-                [LevelJSONHandler.getInstance().getLength(lvlNumber)];
-        processMap(LevelJSONHandler.getInstance().getMap(lvlNumber));
-        this.state = LevelState.PLAYING;
-        this.lvlNumber = lvlNumber;
-        makeFall();
-    }
-
-    /**
      * Moves the player in a certain direction.
      *
      * @param dir the direction towards which the player will move.
@@ -141,7 +139,7 @@ public class Level {
 
         this.setDiamondCount(oldDiamondCount); // we put the old diamond count back
         this.changePlayerPos(moveDir.getOpposite()); // we move the player to his original position
-        if(oldDiamondCount < minimumDiamonds) {
+        if (oldDiamondCount < minimumDiamonds) {
             ((Exit) getTile(exitPos)).unReveal();
         }
         this.state = oldState;
