@@ -10,6 +10,12 @@ import util.Observer;
 
 import java.util.Objects;
 
+/**
+ * A GameBoard is a VBox containing both the game's board and a box displaying the various game messages.
+ * <p>
+ * The two elements are a game board, a GridPane displaying the current level and updated at each change of the model,
+ * and a message box, a BorderPane holding text which are set to notify the player of various game events.
+ */
 public class GameBoard extends VBox implements Observer {
     // various constants
     private static final int BOARD_LENGTH = 30;
@@ -24,6 +30,11 @@ public class GameBoard extends VBox implements Observer {
     private int viewportX = 0;
     private int viewportY = 0;
 
+    /**
+     * Creates a new GameBoard with a given model.
+     *
+     * @param game the model to observe
+     */
     public GameBoard(Facade game) {
         this.game = game;
         game.registerObserver(this);

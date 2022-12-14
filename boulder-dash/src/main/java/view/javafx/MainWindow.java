@@ -17,6 +17,16 @@ import model.Facade;
 import model.LevelState;
 import util.Observer;
 
+/**
+ * A JavaFX controller that will manage all view components necessary for a graphical Boulder Dash experience.
+ * <p>
+ * Upon starting the game, the player is presented with a level selection screen. When the level is selected,
+ * it starts playing it, displaying an InfoBox and a GameBoard.
+ * <p>
+ * Upon death, the player can press Enter to respawn until they lost all their lives, which would bring them back
+ * to the level selection menu. Upon winning, pressing Enter loads the next level, unless there are no more levels
+ * to play, which will bring back the player to the main menu.
+ */
 public class MainWindow implements Observer {
     private final Stage primaryStage;
     private final VBox root = new VBox();
@@ -31,7 +41,17 @@ public class MainWindow implements Observer {
     private final EventHandler<KeyEvent> goBackToMenu;
     private final EventHandler<KeyEvent> nextLevel;
 
+    /**
+     * Creates a new MainWindow with a given controller, model and stage.
+     *
+     * @param controller the controller to interact with
+     * @param game       the model to observe
+     * @param stage      the stage this window will be displayed on
+     */
     public MainWindow(BoulderDash controller, Facade game, Stage stage) {
+        if (controller == null || game == null || stage == null) {
+            throw new NullPointerException("Arguments cannot be null");
+        }
         // model
         this.controller = controller;
         this.game = game;

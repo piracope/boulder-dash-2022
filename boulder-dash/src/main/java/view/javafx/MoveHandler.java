@@ -6,10 +6,23 @@ import javafx.scene.input.KeyEvent;
 import model.Direction;
 import model.Facade;
 
+/**
+ * A KeyEvent handler for the player movement.
+ * <p>
+ * Arrow keys : movement
+ * CTRL-Z : undo
+ * CTRL-Y : redo
+ * Escape : abandon
+ */
 public class MoveHandler implements EventHandler<KeyEvent> {
 
     private final Facade game;
 
+    /**
+     * Creates a new MoveHandler with a given model.
+     *
+     * @param game the model to observe
+     */
     public MoveHandler(Facade game) {
         this.game = game;
     }

@@ -9,7 +9,14 @@ import java.util.List;
 import java.util.Stack;
 
 /**
- * A concrete implementation of Facade.
+ * Game is an implementation of the Boulder Dash Façade.
+ * <p>
+ * In this implementation, game over status is defined by the player's lives. The initial number
+ * of lives is defined in a static attribute.
+ * <p>
+ * If a level is started, the number of lives is either the current
+ * number of lives we have, or the starting number, depending on various factors like is this the first level loaded,
+ * are we starting this level again after dying, was there a game over, etc.
  */
 public class Game implements Facade {
     private static final int STARTING_LIVES = 3;
@@ -89,7 +96,7 @@ public class Game implements Facade {
             move.execute();
             history.add(move);
             redoHistory.clear();
-        } catch (IllegalArgumentException ignored) { // FIXME : this is disgusting
+        } catch (IllegalArgumentException ignored) {
         }
         if (getLevelState() == LevelState.CRUSHED) {
             nbOfLives--;

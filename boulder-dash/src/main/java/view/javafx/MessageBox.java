@@ -7,10 +7,20 @@ import model.Facade;
 import model.LevelState;
 import util.Observer;
 
+/**
+ * A MessageBox is a BorderPane that holds text that notifies the user of various game events.
+ * It warns the user of an invalid move, that the exit was just revealed as well as when the level is won, lost, a game
+ * over occurred etc.
+ */
 public class MessageBox extends BorderPane implements Observer {
     private final Facade game;
     private final Text text = new Text("");
 
+    /**
+     * Creates a new MessageBox with a given model.
+     *
+     * @param game the model to observe
+     */
     public MessageBox(Facade game) {
         this.game = game;
         this.game.registerObserver(this);

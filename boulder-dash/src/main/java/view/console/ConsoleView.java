@@ -9,10 +9,25 @@ import util.Observer;
 import java.util.EmptyStackException;
 import java.util.Scanner;
 
+/**
+ * A ConsoleView is a text-based view of the Boulder Dash game.
+ * <p>
+ * Upon creation, the game is immediately started.
+ * <p>
+ * First, it asks the player for the level to play, and then starts it.
+ * Upon player death, a retry prompt is given. Another prompt is given to the player
+ * when the game is over, asking them if they want to select another level.
+ */
 public class ConsoleView implements Observer {
     private final BoulderDash controller;
     private final Facade game;
 
+    /**
+     * Creates a new ConsoleView with a given controller and a model to observe.
+     *
+     * @param controller the controller to interact with
+     * @param model      the model to observe
+     */
     public ConsoleView(BoulderDash controller, Facade model) {
         this.controller = controller;
         this.game = model;
@@ -21,7 +36,7 @@ public class ConsoleView implements Observer {
         this.play();
     }
 
-    public void play() {
+    private void play() {
         // Showing help
         Scanner sc = new Scanner(System.in);
         System.out.println("Show help ? (y/n)");

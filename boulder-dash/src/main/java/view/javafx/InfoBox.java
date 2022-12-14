@@ -5,6 +5,12 @@ import javafx.scene.text.Text;
 import model.Facade;
 import util.Observer;
 
+/**
+ * An InfoBox is a TilePane that holds all information relative to a level.
+ * <p>
+ * Information such as the level's number, the current number of diamonds, the minimum number of diamonds required
+ * to win and the number of lives left.
+ */
 public class InfoBox extends TilePane implements Observer {
     private final Text levelTxt = new Text("Level");
     private final Text levelNb = new Text("0");
@@ -29,7 +35,7 @@ public class InfoBox extends TilePane implements Observer {
 
     @Override
     public void update() {
-        levelNb.setText(String.valueOf(game.getLvlNumber()));
+        levelNb.setText(String.valueOf(game.getLvlNumber() + 1));
         diamondNb.setText(String.valueOf(game.getDiamondCount()));
         minDiamondNb.setText(String.valueOf(game.getMinimumDiamonds()));
         livesNb.setText(String.valueOf(game.getNbOfLives()));
