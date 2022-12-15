@@ -114,9 +114,9 @@ public class ConsoleView implements Observer {
         }
 
         // Displaying the board
-        System.out.println("D: " + game.getDiamondCount()
-                + " | MD : " + game.getMinimumDiamonds()
-                + " | Level : " + game.getLvlNumber()
+        System.out.println("Diam. : " + game.getDiamondCount()
+                + " | Min. Diam. : " + game.getMinimumDiamonds()
+                + " | Lvl : " + game.getLvlNumber()
                 + " | Lives : " + game.getNbOfLives());
         System.out.println("-----------------------------------");
         System.out.println(game);

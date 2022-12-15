@@ -12,7 +12,7 @@ import java.util.Objects;
  * <p>
  * This class, upon creation, will read and store all levels in memory, ready to be accessed.
  */
-public class LevelJSONHandler {
+public class LevelJSONHandler { // TODO : add comments
     private static final String LEVELS_PATH = "/levels.json";
     private static LevelJSONHandler instance = null;
     private LevelJSON[] levels;
