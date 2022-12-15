@@ -67,6 +67,11 @@ public class Game implements Facade {
     }
 
     @Override
+    public int getRemainingDiamonds() {
+        return level.getRemainingDiamonds();
+    }
+
+    @Override
     public int getLvlNumber() {
         return level.getLvlNumber();
     }

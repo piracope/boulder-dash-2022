@@ -50,6 +50,13 @@ public interface Facade extends Observable {
     int getDiamondCount();
 
     /**
+     * Returns the number of diamonds remaining on this level/
+     *
+     * @return remainingDiamonds
+     */
+    int getRemainingDiamonds();
+
+    /**
      * Getter for the number of the currently playing level.
      *
      * @return levelNumber

@@ -1,11 +1,12 @@
 package view.javafx;
 
 import controller.BoulderDash;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -30,6 +31,7 @@ import util.Observer;
 public class MainWindow implements Observer {
     private final Stage primaryStage;
     private final VBox root = new VBox();
+    private final VBox window = new VBox();
     private final InfoBox info;
     private final GameBoard board;
 
@@ -103,7 +105,7 @@ public class MainWindow implements Observer {
         Scene scene = new Scene(
                 root,
                 board.getPrefWidth(), // make the size of the window the size of the game's viewport
-                board.getPrefHeight() + 100); // adding 100 as an arbitary number
+                board.getPrefHeight() + 120); // adding 120 as an arbitrary number (i'm not able to get the messagebox's size)
 
         primaryStage.setTitle("Boulder Dash - Projet ATLG3 2022-2023 - 58089 MOUFIDI Ayoub");
         primaryStage.setScene(scene);
@@ -113,15 +115,45 @@ public class MainWindow implements Observer {
         info.setAlignment(Pos.CENTER);
         board.setAlignment(Pos.CENTER);
 
+        root.getChildren().add(window);
+
         // showing everything
+        setupMenu();
         showLevelSelect();
         primaryStage.show();
 
     }
 
+    private void setupMenu() {
+        MenuBar mb = new MenuBar();
+
+        Menu about = new Menu("About");
+
+        MenuItem help = new Menu("Help");
+
+        help.setOnAction(e -> {
+
+            Alert helpAlert = new Alert(Alert.AlertType.NONE, """
+                    Arrow Keys : move
+                    CTRL-Z : undo
+                    CTRL-Y : redo
+                    Escape : abandon""",
+                    ButtonType.CANCEL);
+            helpAlert.setTitle("Help");
+            helpAlert.show();
+        });
+
+        about.getItems().add(help);
+        mb.getMenus().add(about);
+
+
+
+        root.getChildren().add(0, mb);
+    }
+
     private void showLevelSelect() {
-        root.getChildren().clear();
-        root.getChildren().add(buildLevelSelection());
+        window.getChildren().clear();
+        window.getChildren().add(buildLevelSelection());
     }
 
     private BorderPane buildLevelSelection() {
@@ -149,17 +181,17 @@ public class MainWindow implements Observer {
     }
 
     private void play(int lvlNumber) {
-        root.getChildren().clear();
-        root.getChildren().addAll(info, board);
+        window.getChildren().clear();
+        window.getChildren().addAll(info, board);
         setPlayingListeners(); //
         controller.start(lvlNumber);
     }
 
     private void setPlayingListeners() {
         // we remove the different game over filters
-        root.removeEventFilter(KeyEvent.KEY_PRESSED, respawn);
-        root.removeEventFilter(KeyEvent.KEY_PRESSED, goBackToMenu);
-        root.removeEventFilter(KeyEvent.KEY_PRESSED, nextLevel);
+        window.removeEventFilter(KeyEvent.KEY_PRESSED, respawn);
+        window.removeEventFilter(KeyEvent.KEY_PRESSED, goBackToMenu);
+        window.removeEventFilter(KeyEvent.KEY_PRESSED, nextLevel);
 
         // and we just keep the move handler
         board.addEventHandler(KeyEvent.KEY_PRESSED, moveHandle);
@@ -171,15 +203,15 @@ public class MainWindow implements Observer {
             board.removeEventHandler(KeyEvent.KEY_PRESSED, moveHandle);
             if (this.game.getLevelState() == LevelState.WON) {
                 // if game is won -> next level
-                root.addEventFilter(KeyEvent.KEY_PRESSED, nextLevel);
+                window.addEventFilter(KeyEvent.KEY_PRESSED, nextLevel);
             } else {
                 // if game over -> back to menu :(
-                root.addEventFilter(KeyEvent.KEY_PRESSED, goBackToMenu);
+                window.addEventFilter(KeyEvent.KEY_PRESSED, goBackToMenu);
             }
         } else if (this.game.getLevelState() == LevelState.CRUSHED) {
             // if crushed but NOT game over -> respawn
             board.removeEventHandler(KeyEvent.KEY_PRESSED, moveHandle);
-            root.addEventFilter(KeyEvent.KEY_PRESSED, respawn);
+            window.addEventFilter(KeyEvent.KEY_PRESSED, respawn);
         }
     }
 }

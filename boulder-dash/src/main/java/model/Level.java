@@ -20,6 +20,7 @@ public class Level {
     private Position playerPos;
     private Position exitPos;
     private int diamondCount = 0;
+    private int totalDiamonds = 0;
     private LevelState state;
 
     /**
@@ -67,6 +68,7 @@ public class Level {
                 }
                 case 'd' -> {
                     map[line][col] = new Diamond(this, new Position(col, line));
+                    totalDiamonds++;
                     col++;
                 }
                 case 'x' -> {
@@ -144,8 +146,6 @@ public class Level {
      * @param oldState        the original state of play
      */
     public void undoMove(Stack<Move> oldPositions, int oldDiamondCount, Direction moveDir, LevelState oldState) {
-        // FIXME : REVEAL stays on after undo
-
         this.setDiamondCount(oldDiamondCount); // we put the old diamond count back
         this.changePlayerPos(moveDir.getOpposite()); // we move the player to his original position
         if (oldDiamondCount < minimumDiamonds) {
@@ -289,6 +289,15 @@ public class Level {
      */
     public int getDiamondCount() {
         return diamondCount;
+    }
+
+    /**
+     * Returns the number of diamonds remaining on this level/
+     *
+     * @return remainingDiamonds
+     */
+    public int getRemainingDiamonds() {
+        return totalDiamonds - diamondCount;
     }
 
     private void setDiamondCount(int diamondCount) {
