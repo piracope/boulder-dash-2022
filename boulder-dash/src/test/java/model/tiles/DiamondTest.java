@@ -5,7 +5,7 @@ import model.Level;
 import model.Position;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DiamondTest {
 

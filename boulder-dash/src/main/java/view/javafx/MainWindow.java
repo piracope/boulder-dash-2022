@@ -1,7 +1,6 @@
 package view.javafx;
 
 import controller.BoulderDash;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -145,7 +144,6 @@ public class MainWindow implements Observer {
 
         about.getItems().add(help);
         mb.getMenus().add(about);
-
 
 
         root.getChildren().add(0, mb);
