@@ -112,6 +112,9 @@ public class Game implements Facade {
 
     @Override
     public void undo() {
+        if (isGameOver() || getLevelState() == LevelState.CRUSHED) {
+            throw new IllegalStateException("You're not able to move");
+        }
         Command toUndo = history.pop();
         toUndo.undo();
         redoHistory.add(toUndo);
@@ -120,6 +123,9 @@ public class Game implements Facade {
 
     @Override
     public void redo() {
+        if (isGameOver() || getLevelState() == LevelState.CRUSHED) {
+            throw new IllegalStateException("You're not able to move");
+        }
         Command toRedo = redoHistory.pop();
         toRedo.execute();
         history.add(toRedo);

@@ -105,6 +105,10 @@ public class Level {
         if (playerPos == null) {
             throw new IllegalStateException("Level has no spawn point.");
         }
+
+        if (exitPos == null) {
+            throw new IllegalStateException("Level has no exit point.");
+        }
     }
 
     /**
@@ -243,7 +247,7 @@ public class Level {
      *
      * @return the original tiles at the affected positions
      */
-    public Stack<Move> makeFall() {
+    private Stack<Move> makeFall() {
         Stack<Move> ret = new Stack<>();
         for (int y = map.length - 1; y >= 0; y--) {
             for (int x = 0; x < map[y].length; x++) {
@@ -291,6 +295,13 @@ public class Level {
         return diamondCount;
     }
 
+    private void setDiamondCount(int diamondCount) {
+        if (diamondCount > this.diamondCount) {
+            throw new IllegalStateException("Suspicious setter usage.");
+        }
+        this.diamondCount = diamondCount;
+    }
+
     /**
      * Returns the number of diamonds remaining on this level/
      *
@@ -298,13 +309,6 @@ public class Level {
      */
     public int getRemainingDiamonds() {
         return totalDiamonds - diamondCount;
-    }
-
-    private void setDiamondCount(int diamondCount) {
-        if (diamondCount > this.diamondCount) {
-            throw new IllegalStateException("Suspicious setter usage.");
-        }
-        this.diamondCount = diamondCount;
     }
 
     private void changePlayerPos(Direction dir) {
