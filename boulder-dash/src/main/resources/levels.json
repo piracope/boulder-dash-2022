@@ -10,5 +10,29 @@
     "minimumDiamonds": 1,
     "length": 6,
     "height": 5
+  },
+  {
+    "map": "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\nW.r..r..w.r...d.w... .r.wr......w..rr..W\nW.......w......rwrr. ...w ..d...w....r.W\nW                                      W\nWd......w.r....rw.r. .. w..r..d.w..r.r.W\nW.......w.r....rw.r. r..w.....r.w... ..W\nWwwwwwwwwwwwwwwwwwww wwwwwwwwwwwwwwwwwwW\nW....rr.w..r....w... ..rw....r..w.....rW\nW.......w.. ....w... ...w....r. w.....rW\nW                                      W\nWr..r...w....r..w..r ...w......dwr.....W\nWr....r.w..r..r.w... . rw.......wr...r.W\nW.r.....w...r...w... . rw.......w r..r.W\nWwwwwwwwwwwwwwwwwwww wwwwwwwwwwwwwwwwwwW\nWr.  ...w....r.rw... ...w.rd..r.w......W\nW.....r.wr......w..d ...w ..r...w.r.rr.W\nW                                      W\nWd.. .r.wr....r.w.r. ..rw.r.r...w......W\nW.....r.wr..d...w... r..w..r....w...rr W\nW.d... rw..r....w.Xd r..w. .....w...rr W\nW.r.... w.. ..r.w.P. ...w....r.rw.... .W\nWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+    "minimumDiamonds": 10,
+    "length": 40,
+    "height": 22
+  },
+  {
+    "map": "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\nWr.ww.wrr.w...rwr..r....w...r.....rw.d.W\nW..Xw.d.r.w...www..w.r....r..r.r...w.wrW\nW....w..rd..r....w.....r.wwr.......w.wwW\nWd.w..wrwr..r....w...r......r.rr......wW\nWr.w...w..r.ww..r.wwd.......r.rr......wW\nWrr..r....w...r......r.rr......r..dww..W\nW..r.ww..r.rr...w....r.rr......w..r.w.rW\nW..w...d......d.r..wwr..r.w.wr..wr..d.rW\nWr.r....w.ww..d.r..wwr..r..d.w...w..r.wW\nW.r.ww.....rrwr..d.w.wr..wr...wr..d.r..W\nWw.ww......rrwr..r.w.ww...w..r.ww..r.wwW\nW.w.r.r.w...wwr..r....w...r.....ww.r.wwW\nW.w.r.r.w.d.w.wr..wr....r..r.rr....w...W\nWw..wrwr..r....w...d...w.rw......w.ww.dW\nWw...wwr..w.d...wr..r.r...r.wr......w..W\nWw.d....r.ww..r.wwr.......r.wr......w..W\nW..r....w...r......r.rr......w..r.w...wW\nWr.ww..r.ww...w....r.rr......w..rd..r..W\nWw...r......r.rd......r...ww..wr..d.w..W\nWrr...w.....r.rd......w..r.wd.d.rP.r...W\nWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+    "minimumDiamonds": 24,
+    "length": 40,
+    "height": 22
+  },
+  {
+    "map": "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\nWwwwwwwwww....r.r..r........r.wwwwwwwwwW\nW         ...........r....r...         W\nW d       ..r..........r...r..       d W\nWwwwwwwwww..r........r......r.wwwwwwwwwW\nW         ......r...r.......r.         W\nW d       ....r......r.rr.....       d W\nWwwwwwwwww.rr........r.rr.....wwwwwwwwwW\nW         ....r.r....r..r.....         W\nW d       ....r.r....r..r..r..       d W\nWwwwwwwwww.rr.r..r....r...r...wwwwwwwwwW\nW         .rr.r..r............         W\nW d       ....r..r........r...       d W\nWwwwwwwwww.....r...r....r..r..wwwwwwwwwW\nW....r.r..r........r.....r............rW\nW......r....r....r..r.r...r..r.........W\nW..r....r.....r...r.......r..r.........W\nW..r........r......r.rr.........r......W\nWr.X...r...........r.rr.........rr..r.PW\nW....r......r.rr......r........r..r....W\nWrr.........r.rr.........r..r.r.r..r...W\nWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+    "minimumDiamonds": 7,
+    "length": 40,
+    "height": 22
+  },
+  {
+    "map": "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\nWdddrrddrddr.rrrrdrdd.ddrddrddddrrdrdrrW\nWdrrdddrrrdrddrrrrrrdrrd.drdrrrrdrddrrdW\nWddrrrrrrrdrddrr.rrrdrrdddrdr.rrdrrrddrW\nWrrdrddrrrrrrdrrddd..ddrrdrddrrdrdd.rrdW\nWrrdrddrrrrrrdrrd.drdrrrrdrdrdrrddrrdrdW\nWdddrrdrd.ddrrddrrdddrrdrdrrr.drddrrdrdW\nWrrrrrdrrdddd..rrrdrdd.rdrddr.rrddddddrW\nWdrddwwwwwww wwwwwdrrrrdrwwwwww wwwwwwrW\nWd.ddw      .    wrddrrrdw     .     wrW\nWdrdrwXP         wrddrrrdw           wrW\nWdrrdw           wr.rrddrw           wrW\nWdrrdw           wddddrdrw           wdW\nWrdddw           wdrrd.drw           wdW\nWrrrrw           wdrrddrrw           wrW\nWdrddw           w.rdrrdrw           wrW\nWdrddw           wwwwwwwww           wrW\nWrrrdw                               wrW\nWrrrdw           wdd.rdrdw           wrW\nWddrrw           wrrrdrddw           wrW\nWdd..wwwwwwwwwwwwwdrrrdddwwwwwwwwwwwwwdW\nWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+    "minimumDiamonds": 75,
+    "length": 40,
+    "height": 22
   }
 ]
