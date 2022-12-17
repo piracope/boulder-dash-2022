@@ -64,18 +64,22 @@ public class ConsoleView implements Observer {
                     System.out.println("Wanna retry ? (y/n)");
                     if (sc.nextLine().toLowerCase().charAt(0) == 'y') {
                         controller.start(lvl);
+                    } else {
+                        controller.abandon();
                     }
                 }
             } while (!game.isGameOver());
 
             System.out.println("Wanna go back to the level selection ? (y/n)");
         } while (sc.nextLine().toLowerCase().charAt(0) == 'y');
+
+        System.out.println("Bye bye!");
     }
 
     private int askForLevel(String message) {
         Scanner sc = new Scanner(System.in);
         int lvl = -1;
-        while (lvl < 0 || lvl > controller.getNbOfLevels()) {
+        while (lvl < 0 || lvl >= controller.getNbOfLevels()) {
             System.out.println(message);
             while (!sc.hasNextInt()) {
                 System.out.println("Not a valid number");

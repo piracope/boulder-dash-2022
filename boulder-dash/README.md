@@ -42,10 +42,12 @@ or by using the javafx:run maven command which will run MainGUI, which will laun
 view.
 
 ### Controller
+
 Both views interact only via the controller, BoulderDash. The controller is responsible for
 relaying any user action, like moving, undoing, redoing etc. to the model's Facade.
 
 ### Model
+
 The model's Facade is implemented by Game. It is responsible for the game logic, such as whether
 a game over occurred, querying values, such as the current level number etc. but most importantly
 to make the necessary changes on the underlying Level class.
@@ -63,6 +65,7 @@ Each of them has their own behaviour which is described in those classes (cf. Ja
 You can also find various utility classes and enums in the model package.
 
 ### Views
+
 When a change on the model occurs, the Views and their components (if applicable) are notified,
 as they registered themselves as observers of the Facade.
 
@@ -78,7 +81,7 @@ internal event filters.
 The game is displayed by the GameBoard, which shows a sprite-based representation of the
 level. The display is entirely refreshed at each change in the model.
 
-Above the GameBoard is an InfoBox, a pane that shows relevant information like 
+Above the GameBoard is an InfoBox, a pane that shows relevant information like
 level number, remaining diamonds etc. Those values too are refreshed at each change
 in the model.
 
@@ -93,28 +96,35 @@ the Level.
 They are all loaded by LevelJSONHandler and needed information from a level is given by that class.
 
 sprites.png is a sprite sheet with all elements necessary (and more) for the JavaFX view.
+
 ## Remarks
 
 ### Assumptions
+
 - This program assumes the info in the resources folder are VALID. If badly formatted,
-uncaught exceptions will be thrown.
+  uncaught exceptions will be thrown.
 - We do not take time into account. A player has all the time to complete a level.
 - A player has a certain number of lives, and the game is over if that number reaches zero.
 
 ### Testing policy
+
 100% code coverage was not achieved, nor sought for.
+
 - Not all methods are explicitly tested, especially for Tiles. These are often simple getters,
-setters with no particular behaviour or just methods that return true/false. Methods with more behaviour
-were tested.
-- Some low-level methods, like Level's, are not explicitly tested, even though they are rich in 
-behaviour. This is because they are 1. quite tricky to test and 2. implicitly tested in larger
-classes, like Game. And if those Game methods work, it must mean that the underlying Level
-methods work too.
+  setters with no particular behaviour or just methods that return true/false. Methods with more behaviour
+  were tested.
+- Some low-level methods, like Level's, are not explicitly tested, even though they are rich in
+  behaviour. This is because they are 1. quite tricky to test and 2. implicitly tested in larger
+  classes, like Game. And if those Game methods work, it must mean that the underlying Level
+  methods work too.
 
 ### Known bugs
+
 - When a player moves just under a rock, the fall of that rock will be delayed until the next move.
-This is not the case for diagonal falls. This makes some levels very difficult, or outright impossible to complete.
+  This is not the case for diagonal falls. This makes some levels very difficult, or outright impossible to complete.
 - Certain window environments (I'm using dwm) make the InfoBox narrower, which cause it
-to flow to the next line. As the window is of a fixed size, it makes the MessageBox
-overflow out of the window, which makes some text impossible to read.  
-As such, **it is recommended to play the JavaFX view on Windows.** (at least it worked on Windows)
+  to flow to the next line. As the window is of a fixed size, it makes the MessageBox
+  overflow out of the window, which makes some text impossible to read.  
+  As such, **it is recommended to play the JavaFX view on Windows.** (at least it worked on Windows)
+- In the case of a large number of stacked falling tiles, the fall
+  may take some turns to complete.
