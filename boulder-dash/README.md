@@ -1,6 +1,6 @@
 # Boulder Dash
 
-Final ATLG3 project by MOUFIDI Ayoub - 58089.
+Java Project by MOUFIDI Ayoub made during the year 2022-2023 at the École Supérieure d'Informatique (HE2B - ESI).
 
 ## Project Structure
 
